@@ -1,0 +1,29 @@
+<nav class="<%= container_classes %>" aria-label="<%= t('breadcrumb.navigation', default: 'Breadcrumb') %>">
+  <ol class="<%= list_classes %>">
+    <% @items.each_with_index do |item, index| %>
+      <li class="<%= item_classes(item) %>">
+        <% if item.has_url? && !item.active? %>
+          <%= link_to item.url, class: "flex items-center gap-2 hover:underline" do %>
+            <% if item.has_icon? %>
+              <%= icon item.icon, library: "lucide", class: "w-4 h-4" %>
+            <% end %>
+            <span><%= item.label %></span>
+          <% end %>
+        <% else %>
+          <div class="flex items-center gap-2">
+            <% if item.has_icon? %>
+              <%= icon item.icon, library: "lucide", class: "w-4 h-4" %>
+            <% end %>
+            <span><%= item.label %></span>
+          </div>
+        <% end %>
+        
+        <% unless index == @items.length - 1 %>
+          <span class="text-base-content/40 mx-1" aria-hidden="true">
+            <%= icon separator_icon, library: "lucide", class: "w-4 h-4" %>
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+</nav>

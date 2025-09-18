@@ -1,0 +1,38 @@
+<div class="flex items-center justify-center p-4">
+  <div class="card w-full max-w-md shadow-sm bg-base-100 border border-base-300">
+    <div class="card-body p-8">
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-base-content"><%= t('sessions.new.title') %></h1>
+        <p class="text-sm text-base-content/60 mt-2"><%= t('sessions.new.subtitle') %></p>
+      </div>
+      
+      <%= render FormComponent.new(
+        model: Session.new,
+        url: login_path,
+        method: :post,
+        show_cancel: false,
+        submit_label: t('sessions.new.submit'),
+        submit_icon: 'log-in',
+        submit_button_class: 'btn btn-primary w-full flex items-center justify-center gap-2',
+        html_options: { class: "space-y-4" },
+        fields: [
+          {
+            name: :email_address,
+            as: :email,
+            required: true,
+            autofocus: true,
+            label: false,
+            input_html: { autocomplete: 'username' }
+          },
+          {
+            name: :password,
+            as: :password,
+            required: true,
+            label: false,
+            input_html: { autocomplete: 'current-password' }
+          }
+        ]
+      ) %>
+    </div>
+  </div>
+</div>

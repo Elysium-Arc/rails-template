@@ -1,0 +1,110 @@
+<div class="table-container">
+  <div class="<%= container_classes %> bg-base-100 rounded-box shadow-xs border border-base-200/60">
+    <table id="<%= @table_id %>" class="<%= responsive_classes %>" data-controller="table" data-table-sort-column-value="<%= @sort_column %>" data-table-sort-direction-value="<%= @sort_direction %>">
+      <thead>
+        <tr>
+          <% if @selectable %>
+            <th class="px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-left font-medium border-b border-base-300 table-cell w-12 sm:w-auto">
+              <label class="flex items-center gap-1 sm:gap-2">
+                <input type="checkbox" class="checkbox checkbox-sm" <%= "checked" if all_selected? %> data-action="table#toggleSelectAll">
+                <span class="hidden sm:inline ml-2 text-xs sm:text-sm"><%= t('table.select_all', default: 'Select All') %></span>
+              </label>
+            </th>
+          <% end %>
+          <% @columns.each do |column| %>
+            <% if sortable?(column) %>
+              <th class="<%= header_classes(column) %>" data-action="click->table#sort" data-table-column="<%= h(column.key) %>">
+                <div class="flex items-center justify-between w-full group/header">
+                  <span><%= column.label %></span>
+                  <div class="flex items-center gap-1">
+                    <% if sort_priority(column) && sort_priority(column) > 1 %>
+                      <span class="text-xs font-semibold text-primary"><%= sort_priority(column) %></span>
+                    <% end %>
+                    <%= icon sort_icon(column), library: "lucide", class: "w-4 h-4 #{sorted_by?(column) ? 'text-base-content/60' : 'text-base-content/40 group-hover/header:text-base-content/60'} flex-shrink-0 transition-colors duration-200" %>
+                  </div>
+                </div>
+              </th>
+            <% else %>
+              <th class="<%= header_classes(column) %>">
+                <div class="flex items-center justify-between w-full">
+                  <span><%= column.label %></span>
+                </div>
+              </th>
+            <% end %>
+          <% end %>
+          <% if has_row_actions? %>
+            <th class="px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-center font-medium border-b border-base-300 table-cell">
+              <span class="text-xs sm:text-sm"><%= t('table.actions', default: 'Actions') %></span>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-base-200/30">
+        <% if @data.any? %>
+          <% @data.each do |record| %>
+            <tr id="<%= @dom_id.respond_to?(:call) ? @dom_id.call(record) : @dom_id %>" class="hover:bg-gradient-to-r hover:from-base-50/50 hover:to-transparent transition-all duration-200 group <%= "selected" if record_selected?(record) %>">
+              <% if @selectable %>
+                <td class="px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 border-b border-base-200/50 table-cell w-12 sm:w-auto">
+                  <input type="checkbox" class="checkbox checkbox-sm" <%= "checked" if record_selected?(record) %> data-action="table#toggleSelect" data-table-record-id="<%= record_id(record) %>">
+                </td>
+              <% end %>
+              <% @columns.each do |column| %>
+                <td class="<%= cell_classes_for_record(column, record) %>">
+                  <%= cell_value(record, column) %>
+                </td>
+              <% end %>
+              <% if has_row_actions? %>
+                <td class="px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 border-b border-base-200/50 table-cell">
+                  <div class="flex justify-end items-center gap-1">
+                    <%# Inline dropdown so the markup and actions are visible in the template %>
+                    <% direction = I18n.locale == :ar ? :rtl : :ltr %>
+                    <%= render DropdownComponent.new(direction: direction, container_classes: "dropdown-left !overflow-visible", dropdown_classes: "btn btn-ghost btn-sm btn-square", menu_classes: "bg-base-100") do |dropdown| %>
+                      <% dropdown.with_trigger do %>
+                        <%= icon "ellipsis-vertical", library: "lucide", class: "w-4 h-4" %>
+                      <% end %>
+                      <% dropdown.with_menu do %>
+                        <% @row_actions.each do |action| %>
+                          <li>
+                            <% if action[:type] == :link %>
+                              <% 
+                                action_url = action[:url].respond_to?(:call) ? action[:url].call(record) : action[:url]
+                                action_data = action[:data].respond_to?(:call) ? action[:data].call(record) : (action[:data] || {})
+                              %>
+                              <%= link_to action_url, class: "flex items-center gap-2", data: action_data.merge({ action: "click->dropdown#closeDropdown" }) do %>
+                                <%= icon action[:icon], library: "lucide", class: "w-4 h-4" if action[:icon] %>
+                                <span class="text-sm"><%= action[:label] %></span>
+                              <% end %>
+                            <% elsif action[:type] == :button %>
+                              <% 
+                                action_url = action[:url].respond_to?(:call) ? action[:url].call(record) : action[:url]
+                                action_data = action[:data].respond_to?(:call) ? action[:data].call(record) : (action[:data] || {})
+                              %>
+                              <%= button_to action_url, method: action[:method] || :post, form: { data: action_data, class: "w-full block" }, class: "w-full block text-left hover:cursor-pointer flex items-center gap-2", data: { action: "click->dropdown#closeDropdown" } do %>
+                                <%= icon action[:icon], library: "lucide", class: "w-4 h-4 pointer-events-none" if action[:icon] %>
+                                <span class="text-sm pointer-events-none"><%= action[:label] %></span>
+                              <% end %>
+                            <% end %>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="<%= @columns.size + (@selectable ? 1 : 0) + (has_row_actions? ? 1 : 0) %>" class="<%= empty_row_classes %>">
+              <div class="flex flex-col items-center gap-3 py-12">
+                <%= icon "inbox", library: "lucide", class: "w-12 h-12 text-base-content/20" %>
+                <span class="text-lg font-medium text-base-content/60"><%= @empty_message %></span>
+                <span class="text-sm text-base-content/40"><%= t('table.no_data_available', default: 'No data available') %></span>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

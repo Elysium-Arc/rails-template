@@ -1,0 +1,72 @@
+<div class="<%= container_classes %>" data-controller="pagy">
+  <!-- Info: Showing X to Y of Z entries -->
+  <div class="<%= info_classes %>">
+    <span class="hidden sm:inline">
+      <%= t('pagy.info', from: @pagy.from, to: @pagy.to, count: @pagy.count, default: "Showing %{from} to %{to} of %{count} entries") %>
+    </span>
+    <span class="sm:hidden text-xs">
+      <%= t('pagy.info_short', from: @pagy.from, to: @pagy.to, count: @pagy.count, default: "%{from}-%{to} of %{count}") %>
+    </span>
+  </div>
+
+  <!-- Navigation: Previous, Pages, Next -->
+  <nav class="<%= nav_classes %>">
+    <!-- Previous Button -->
+    <% if @pagy.prev %>
+      <%= link_to url_for(request.params.merge(page: @pagy.prev)), class: "#{nav_button_classes} btn-ghost", title: t('pagy.prev', default: 'Previous') do %>
+        <%= icon(is_rtl? ? "chevron-right" : "chevron-left", library: "lucide", class: "w-4 h-4") %>
+        <span class="hidden sm:inline"><%= t('pagy.prev', default: 'Previous') %></span>
+      <% end %>
+    <% else %>
+      <span class="<%= disabled_button_classes %>" title: t('pagy.prev', default: 'Previous')>
+        <%= icon(is_rtl? ? "chevron-right" : "chevron-left", library: "lucide", class: "w-4 h-4") %>
+        <span class="hidden sm:inline"><%= t('pagy.prev', default: 'Previous') %></span>
+      </span>
+    <% end %>
+
+    <!-- Page Numbers -->
+    <div class="flex items-center gap-0.5 sm:gap-1">
+      <% @pagy.series.each do |item| %>
+        <% if item.is_a?(Integer) %>
+          <%= link_to item, url_for(request.params.merge(page: item)), class: page_link_classes(item, @pagy.page), title: "Page #{item}" %>
+        <% elsif item == :gap %>
+          <span class="<%= gap_classes %>">…</span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- Next Button -->
+    <% if @pagy.next %>
+      <%= link_to url_for(request.params.merge(page: @pagy.next)), class: "#{nav_button_classes} btn-ghost", title: t('pagy.next', default: 'Next') do %>
+        <span class="hidden sm:inline"><%= t('pagy.next', default: 'Next') %></span>
+        <%= icon(is_rtl? ? "chevron-left" : "chevron-right", library: "lucide", class: "w-4 h-4") %>
+      <% end %>
+    <% else %>
+      <span class="<%= disabled_button_classes %>" title: t('pagy.next', default: 'Next')>
+        <span class="hidden sm:inline"><%= t('pagy.next', default: 'Next') %></span>
+        <%= icon(is_rtl? ? "chevron-left" : "chevron-right", library: "lucide", class: "w-4 h-4") %>
+      </span>
+    <% end %>
+    </nav>
+
+  <!-- Items Per Page Selector -->
+  <div class="<%= items_per_page_classes %>">
+    <label class="text-xs sm:text-sm font-medium text-base-content/70 whitespace-nowrap">
+      <%= t('pagy.show', default: 'Show:') %>
+    </label>
+    <% if @form_id %>
+      <%= select_tag :limit,
+          options_for_select([10, 25, 50, 100], @pagy.vars[:limit]),
+          class: "select select-bordered select-sm min-h-[2rem] h-8 w-16 text-xs sm:text-sm font-medium",
+          data: { controller: "pagy", action: "change->pagy#limitChanged" },
+          form: @form_id %>
+    <% else %>
+      <%= form_with url: request.path, method: :get, data: { turbo_frame: "_top" }, class: "inline" do |f| %>
+        <%= f.select :limit,
+            options_for_select([10, 25, 50, 100], @pagy.vars[:limit]),
+            class: "select select-bordered select-sm min-h-[2rem] h-8 w-16 text-xs sm:text-sm font-medium",
+            data: { controller: "pagy", action: "change->pagy#limitChanged" } %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

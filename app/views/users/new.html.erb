@@ -1,0 +1,37 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <%= render FormComponent.new(
+    model: @user,
+    url: users_path,
+    method: :post,
+    fields: [
+      {
+        name: :email_address,
+        as: :email,
+        required: true,
+        autofocus: true,
+        maxlength: 255,
+        pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
+        hint: t('users.form.hints.email', default: 'Email address for login'),
+        input_html: { autocomplete: 'email' }
+      },
+      {
+        name: :password,
+        as: :password,
+        required: true,
+        minlength: 8,
+        maxlength: 255,
+        hint: t('users.form.hints.password', default: 'Minimum 8 characters'),
+        input_html: { autocomplete: 'new-password' }
+      },
+      {
+        name: :password_confirmation,
+        as: :password,
+        required: true,
+        minlength: 8,
+        maxlength: 255,
+        label: t('users.form.password_confirmation', default: 'Confirm Password'),
+        input_html: { autocomplete: 'new-password' }
+      }
+    ]
+  ) %>
+<% end %>

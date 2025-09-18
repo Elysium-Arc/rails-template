@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" dir="<%= I18n.locale.to_s == 'ar' ? 'rtl' : 'ltr' %>" data-controller="dir" data-theme="<%= cookies[:theme] || 'system' %>">
+  <%= render "layouts/head" %>
+  <body class="bg-background relative">
+    <%#= render TopbarComponent.new(current_user: current_user) %>
+    <%= render FlashComponent.new(flash: flash) %>
+    <section class="flex h-screen overflow-hidden relative">
+      <%= render SidebarComponent.new(current_user: current_user, collapsed: cookies[:'sidebar-collapsed'] == 'true', current_controller: controller.controller_name) %>
+      <main class="flex-1 flex flex-col">
+        <%= render TopbarComponent.new(current_user: current_user) %>
+        <div class="flex-1 overflow-y-auto bg-base-200/40">
+          <%= yield %>
+        </div>
+      </main>
+    </section>
+    
+    <!-- Global Modal -->
+    <%= render ModalComponent.new(
+      id: "app-modal",
+      title: "",
+      size: :lg,
+      closable: true,
+      backdrop_dismissable: true,
+      turbo_frame_id: "modal-content",
+      content_class: "max-h-[80vh] overflow-y-auto py-4"
+    ) %>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<% 
+  # Determine alert type based on flash type
+  alert_kind = case type.to_s
+  when "alert", "error", "danger"
+    "error"
+  when "notice", "success"
+    "success"
+  when "warning", "warn"
+    "warning"
+  else
+    "info"
+  end
+  
+  # Handle message translation
+  translated_message = if message.is_a?(String)
+    # Check if it's a translation key (contains dots but isn't a sentence)
+    if message.include?('.') && !message.include?(' ')
+      begin
+        t(message, default: message)
+      rescue
+        message
+      end
+    else
+      message
+    end
+  else
+    message.to_s
+  end
+  
+  # Set default timeout
+  timeout = 6000
+%>
+<div
+  class="flash-item"
+  data-flash-timeout="<%= timeout %>"
+  data-flash-type-value="<%= alert_kind %>"
+  role="status"
+  tabindex="0"
+>
+  <div class="alert alert-<%= alert_kind %> shadow-xs border border-base-300 flash-alert">
+    <div class="flex-1">
+      <div class="flash-icon mr-2">
+        <% case alert_kind %>
+        <% when "success" %>
+          <%= icon "check-circle", variant: "outline", class: "w-5 h-5" %>
+        <% when "error" %>
+          <%= icon "exclamation-circle", variant: "outline", class: "w-5 h-5" %>
+        <% when "warning" %>
+          <%= icon "exclamation-triangle", variant: "outline", class: "w-5 h-5" %>
+        <% when "info" %>
+          <%= icon "information-circle", variant: "outline", class: "w-5 h-5" %>
+        <% end %>
+      </div>
+      <label class="flash-message"><%= translated_message %></label>
+    </div>
+    <div class="flex-none">
+      <button
+        type="button"
+        class="flash-close btn btn-circle btn-ghost btn-sm"
+        aria-label="<%= t('flash.close', default: 'Dismiss') %>"
+        title="<%= t('flash.close', default: 'Dismiss') %>"
+      >
+        <%= icon "x", library: "lucide", class: "w-4 h-4" %>
+      </button>
+    </div>
+  </div>
+</div>

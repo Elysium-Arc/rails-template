@@ -1,0 +1,474 @@
+en:
+  # ActiveRecord model and attribute translations
+  activerecord:
+    models:
+      user:
+        one: "User"
+        other: "Users"
+      session:
+        one: "Session"
+        other: "Sessions"
+      terminal:
+        one: "Terminal"
+        other: "Terminals"
+      clock:
+        one: "Clock Event"
+        other: "Clock Events"
+    attributes:
+      user:
+        email_address: "Email address"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        created_at: "Created at"
+        updated_at: "Updated at"
+      session:
+        token: "Session token"
+        email_address: "Email address"
+        password: "Password"
+      terminal:
+        name: "Name"
+        provider: "Provider"
+        ip: "IP Address"
+        port: "Port"
+        protocol: "Protocol"
+        username: "Username"
+        password: "Password"
+        provider: "Provider Type"
+        status: "Status"
+        ssl_verify: "Verify SSL Certificate"
+        device_name: "Device Name"
+        device_id: "Device ID"
+        model: "Model"
+        serial_number: "Serial Number"
+        firmware_version: "Firmware Version"
+        online: "Online"
+        last_checked_at: "Last Checked"
+        last_synced_at: "Last Synced"
+        listener_configured: "Listener Configured"
+        listener_url: "Listener URL"
+        listener_configured_at: "Listener Configured At"
+        user_count: "User Count"
+        last_user_sync_at: "Last User Sync"
+        metadata: "Metadata"
+        created_at: "Created"
+        updated_at: "Updated"
+      clock:
+        terminal: "Terminal"
+        terminal_id: "Terminal"
+        employee_no: "Employee No"
+        event_type: "Event Type"
+        clocked_at: "Clocked At"
+        device_id: "Device ID"
+        raw_event_data: "Raw Event Data"
+        created_at: "Recorded"
+        updated_at: "Updated"
+    errors:
+      messages:
+        blank: "can't be blank"
+        taken: "has already been taken"
+        too_short: "is too short (minimum is %{count} characters)"
+        too_long: "is too long (maximum is %{count} characters)"
+        invalid: "is invalid"
+        invalid_format: "has an invalid format"
+        invalid_url: "must be a valid URL"
+        greater_than: "must be greater than %{count}"
+        less_than_or_equal_to: "must be less than or equal to %{count}"
+      models:
+        user:
+          attributes:
+            email_address:
+              invalid_format: "must be a valid email address"
+              taken: "is already registered"
+            password:
+              too_short: "is too short (minimum 8 characters)"
+        terminal:
+          attributes:
+            ip:
+              invalid_format: "must be a valid IP address or hostname"
+              already_exists: "and port combination is already registered"
+            port:
+              not_a_number: "must be a number"
+              greater_than: "must be greater than 0"
+              less_than_or_equal_to: "must be less than or equal to 65535"
+            listener_url:
+              invalid_url: "must be a valid HTTP or HTTPS URL"
+
+  # Views and components
+  sessions:
+    new:
+      title: "Login"
+      subtitle: "Welcome back! Please login to your account."
+      email: "Email"
+      password: "Password"
+      submit: "Login"
+      error: "Try another email address or password."
+      errors:
+        user_not_found: "No account found for that email address."
+        invalid_password: "Incorrect password for that email address."
+
+  passwords:
+    new:
+      title: "Forgot your password?"
+      email: "Enter your email address"
+      submit: "Email reset instructions"
+    edit:
+      title: "Update your password"
+      password: "Password"
+      password_confirmation: "Password confirmation"
+      submit: "Save"
+    create:
+      notice: "Password reset instructions sent (if a user with that email exists)."
+    update:
+      notice: "Password has been reset."
+      alert: "Passwords did not match."
+    token:
+      invalid: "Password reset link is invalid or has expired."
+
+  dashboard:
+    index:
+      title: "Dashboard"
+
+  sidebar:
+    links:
+      dashboard: "Dashboard"
+      profile: "Profile"
+      terminals: "Terminals"
+      clocks: "Clock Events"
+      users: "Users"
+
+  # Global UI elements
+  common:
+    select: "Select..."
+    actions:
+      create: "Create"
+      update: "Update"
+      save: "Save"
+      saving: "Saving..."
+      cancel: "Cancel"
+      edit: "Edit"
+      delete: "Delete"
+      view: "View"
+      back: "Back"
+      confirm: "Are you sure?"
+    status:
+      online: "Online"
+      offline: "Offline"
+      active: "Active"
+      idle: "Idle"
+      inactive: "Inactive"
+    messages:
+      not_available: "N/A"
+      never: "Never"
+      success: "Operation completed successfully"
+      error: "An error occurred"
+
+  # Form helpers
+  helpers:
+    submit:
+      create: "Create %{model}"
+      update: "Update %{model}"
+      submit: "Save %{model}"
+    select:
+      prompt: "Please select"
+    label:
+      terminal:
+        name: "Terminal Name"
+        ip: "IP Address"
+        port: "Port"
+        protocol: "Protocol"
+        username: "Username"
+        password: "Password"
+        provider: "Provider Type"
+        status: "Status"
+        ssl_verify: "Verify SSL Certificate"
+    placeholder:
+      terminal:
+        name: "e.g., Main Entrance Terminal"
+        ip: "e.g., 192.168.1.100"
+        port: "80"
+        username: "admin"
+        password: "Enter password"
+    hint:
+      terminal:
+        password_edit: "Leave blank to keep the current password"
+        ssl_verify: "Disable for self-signed certificates"
+
+  # Table component
+  table:
+    select_all: "Select All"
+    actions: "Actions"
+    empty_message: "No records found"
+    no_data_available: "No data available"
+
+  # Filter component
+  filters:
+    add_filter: "Add Filter"
+    clear_all: "Clear All"
+    apply_filters: "Apply Filters"
+    all_option: "All %{attribute}"
+    search_filters: "Search filters..."
+    sort: "Sort"
+    ascending: "Ascending"
+    descending: "Descending"
+    search_sort: "Search sort options..."
+    operators:
+      cont: "Contains"
+      eq: "Equals"
+      start: "Starts with"
+      end: "Ends with"
+      not_cont: "Does not contain"
+      gt: "After"
+      gteq: "On or after"
+      lt: "Before"
+      lteq: "On or before"
+      yes: "Yes"
+      no: "No"
+
+  # Breadcrumb component
+  breadcrumb:
+    navigation: "Breadcrumb"
+
+  # Pagination component
+  pagy:
+    show: "Show:"
+    prev: "Previous"
+    next: "Next"
+    info: "Showing %{from} to %{to} of %{count} entries"
+    info_short: "%{from}-%{to} of %{count}"
+
+  # View-specific translations
+  users:
+    index:
+      title: "Users"
+      empty_message: "No users found. Create your first user to get started."
+    show:
+      title: "User Details"
+      sessions: "Active Sessions"
+      session_started: "Started"
+      session_last_active: "Last Active"
+      session_ip: "IP Address"
+      session_user_agent: "Device"
+      no_sessions: "No active sessions"
+    new:
+      title: "New User"
+    edit:
+      title: "Edit User"
+    form:
+      password_confirmation: "Confirm Password"
+      hints:
+        email: "Email address for login"
+        password: "Minimum 8 characters"
+        password_optional: "Leave blank to keep current password (minimum 8 characters if changing)"
+    columns:
+      email: "Email"
+      status: "Status"
+      created_at: "Created At"
+      updated_at: "Updated At"
+    messages:
+      created: "User created successfully"
+      updated: "User updated successfully"
+      deleted: "User deleted successfully"
+      confirm_delete: "Are you sure you want to delete this user? All associated sessions will also be deleted."
+    errors:
+      duplicate: "A user with this email address already exists"
+
+  terminals:
+    index:
+      title: "Terminals"
+      empty_message: "No terminals found. Create your first terminal to get started."
+    show:
+      title: "Terminal Details"
+      details: "Terminal Information"
+      recent_clocks: "Recent Clock Events"
+      view_all_clocks: "View All Clock Events"
+      no_clocks: "No clock events recorded yet"
+      stats:
+        total_clocks: "Total Events"
+        today: "Today"
+        this_week: "This Week"
+        this_month: "This Month"
+    new:
+      title: "New Terminal"
+    edit:
+      title: "Edit Terminal"
+    form:
+      name: "Terminal Name"
+      name_placeholder: "e.g., Main Entrance Terminal"
+      provider: "Provider"
+      ip: "IP Address"
+      port: "Port"
+      protocol: "Protocol"
+      username: "Username"
+      password: "Password"
+      ssl_verify: "Verify SSL Certificate"
+      sections:
+        basic_info: "Basic Information"
+        connection: "Connection Details"
+        authentication: "Authentication"
+        security: "Security Options"
+      hints:
+        name: "A friendly name to identify this terminal"
+        ip: "The IP address of the terminal device"
+        port: "The port number for the connection"
+        username: "Username for authentication (if required)"
+        password: "Leave blank to keep the current password"
+        ssl_verify: "Disable for self-signed certificates"
+      name_placeholder: "e.g., Main Entrance Terminal"
+      provider: "Provider"
+      ip: "IP Address"
+      port: "Port"
+      protocol: "Protocol"
+      username: "Username"
+      password: "Password"
+      ssl_verify: "Verify SSL Certificate"
+      sections:
+        basic_info: "Basic Information"
+        connection: "Connection Details"
+        authentication: "Authentication"
+        security: "Security Options"
+      hints:
+        name: "A friendly name to identify this terminal"
+        ip: "The IP address of the terminal device"
+        port: "The port number for the connection"
+        username: "Username for authentication (if required)"
+        password: "Leave blank to keep the current password"
+        ssl_verify: "Disable for self-signed certificates"
+    columns:
+      name: "Name"
+      ip: "IP Address"
+      port: "Port"
+      protocol: "Protocol"
+      provider: "Provider"
+      status: "Status"
+      device_name: "Device Name"
+      model: "Model"
+      serial_number: "Serial Number"
+      firmware_version: "Firmware Version"
+      last_synced: "Last Synced"
+      created_at: "Created"
+    actions:
+      sync_now: "Sync Now"
+    messages:
+      created: "Terminal created successfully"
+      updated: "Terminal updated successfully"
+      deleted: "Terminal deleted successfully"
+      destroyed: "Terminal deleted successfully"
+      sync_enqueued: "Device sync has been queued"
+      terminal_offline: "Terminal must be online to sync"
+      confirm_delete: "Are you sure you want to delete this terminal? All associated clock events will also be deleted."
+    errors:
+      duplicate: "A terminal with this IP address and port combination already exists"
+
+  clocks:
+    index:
+      title: "Clock Events"
+      title_for_terminal: "Clock Events for %{terminal_name}"
+      empty_message: "No clock events found."
+    show:
+      title: "Clock Event Details"
+      details: "Event Information"
+      view_raw_data: "View Raw Event Data"
+      view_all_clocks: "View All Clock Events"
+      view_terminal: "View Terminal"
+    columns:
+      terminal: "Terminal"
+      employee_no: "Employee No"
+      event_type: "Event Type"
+      clocked_at: "Clocked At"
+      device_id: "Device ID"
+      raw_event_data: "Raw Event Data"
+      created_at: "Recorded"
+      updated_at: "Updated"
+    messages:
+      destroyed: "Clock event deleted successfully"
+      confirm_delete: "Are you sure you want to delete this clock event?"
+
+  flash:
+    alert: "There was a problem."
+    notice: "Operation successful."
+    rate_limited: "Too many attempts, try again later."
+    sessions:
+      login_success: "Signed in successfully."
+      logout_success: "Signed out successfully."
+
+  topbar:
+    default_title: "Pulsar"
+    language: "Language"
+    theme: "Theme"
+    logout: "Logout"
+    user_profile: "User profile"
+    languages:
+      en: "English"
+      fr: "Français"
+      ar: "العربية"
+
+  simple_form:
+    yes: "Yes"
+    no: "No"
+    required:
+      text: "required"
+      mark: "*"
+    error_notification:
+      default_message: "Please review the problems below:"
+
+  # Date/time formats for use with I18n.l and time distance translations
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+    month_names:
+      - ~
+      - January
+      - February
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute ago"
+      less_than_x_seconds:
+        one: "less than 1 second ago"
+        other: "less than %{count} seconds ago"
+      x_seconds:
+        one: "1 second ago"
+        other: "%{count} seconds ago"
+      less_than_x_minutes:
+        one: "less than a minute ago"
+        other: "less than %{count} minutes ago"
+      x_minutes:
+        one: "1 minute ago"
+        other: "%{count} minutes ago"
+      about_x_hours:
+        one: "about 1 hour ago"
+        other: "about %{count} hours ago"
+      x_days:
+        one: "1 day ago"
+        other: "%{count} days ago"
+      about_x_months:
+        one: "about 1 month ago"
+        other: "about %{count} months ago"
+      x_months:
+        one: "1 month ago"
+        other: "%{count} months ago"
+      about_x_years:
+        one: "about 1 year ago"
+        other: "about %{count} years ago"
+      over_x_years:
+        one: "over 1 year ago"
+        other: "over %{count} years ago"
+

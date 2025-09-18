@@ -1,0 +1,26 @@
+<% available_locales.each do |locale| %>
+  <% if locale[:code] == @current_locale %>
+    <li>
+      <span class="dropdown-item-selected">
+        <%= icon locale[:icon], library: locale[:library], class: "w-4 h-4" %>
+        <span><%= t("topbar.languages.#{locale[:code]}") %></span>
+      </span>
+    </li>
+  <% else %>
+    <li>
+      <% target_url =
+           if request.query_parameters.present?
+             url_for(request.query_parameters.except(:locale).merge(locale: locale[:code]))
+           else
+             root_path(locale: locale[:code])
+           end %>
+
+      <%= link_to target_url, class: "dropdown-item" do %>
+        <%= icon locale[:icon], library: locale[:library], class: "w-4 h-4" %>
+        <span><%= t("topbar.languages.#{locale[:code]}") %></span>
+      <% end %>
+
+
+    </li>
+  <% end %>
+<% end %>

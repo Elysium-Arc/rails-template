@@ -1,0 +1,99 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <div class="space-y-6">
+    <%# User Information %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="text-sm font-semibold text-base-content"><%= t('users.columns.email') %></label>
+        <p class="text-base-content mt-1"><%= @user.email_address %></p>
+      </div>
+      
+      <div>
+        <label class="text-sm font-semibold text-base-content"><%= t('users.columns.status') %></label>
+        <div class="mt-1"><%= auto_status_badge(@user.status) %></div>
+      </div>
+      
+      <div>
+        <label class="text-sm font-semibold text-base-content"><%= t('users.columns.created_at') %></label>
+        <p class="text-base-content mt-1"><%= l(@user.created_at, format: :long) %></p>
+      </div>
+      
+      <div>
+        <label class="text-sm font-semibold text-base-content"><%= t('users.columns.updated_at') %></label>
+        <p class="text-base-content mt-1"><%= l(@user.updated_at, format: :long) %></p>
+      </div>
+    </div>
+
+    <%# Sessions Information %>
+    <div>
+      <h3 class="text-lg font-semibold mb-3"><%= t('users.show.sessions', default: 'Active Sessions') %></h3>
+      <% if @user.sessions.any? %>
+        <%= render TableComponent.new(
+          columns: [
+            {
+              key: :created_at,
+              label: t('users.show.session_started', default: 'Started'),
+              format: ->(session) { time_ago_in_words(session.created_at) },
+              header_class: "text-center whitespace-nowrap",
+              cell_class: "text-center whitespace-nowrap font-medium text-sm"
+            },
+            {
+              key: :updated_at,
+              label: t('users.show.session_last_active', default: 'Last Active'),
+              format: ->(session) { time_ago_in_words(session.updated_at) },
+              header_class: "text-center whitespace-nowrap",
+              cell_class: ->(session) {
+                # Highlight recent activity (less than 5 minutes)
+                recent = session.updated_at > 5.minutes.ago
+                base = "text-center whitespace-nowrap text-sm"
+                recent ? "#{base} text-success font-semibold" : "#{base} text-base-content/70"
+              }
+            },
+            {
+              key: :ip_address,
+              label: t('users.show.session_ip', default: 'IP Address'),
+              format: ->(session) { session.ip_address || t('common.unknown', default: 'Unknown') },
+              header_class: "text-center whitespace-nowrap",
+              cell_class: "text-center whitespace-nowrap font-mono text-sm"
+            },
+            {
+              key: :user_agent,
+              label: t('users.show.session_user_agent', default: 'Device'),
+              truncate: true,
+              format: ->(session) { session.user_agent || t('common.unknown', default: 'Unknown') },
+              header_class: "whitespace-nowrap",
+              cell_class: "text-sm text-base-content/70"
+            }
+          ],
+          data: @user.sessions.order(updated_at: :desc).limit(5),
+          disable_sorting: true,
+          scrollable: true,
+          cell_styles: {
+            shared: {
+              classes: "py-3",
+              mode: :add
+            }
+          }
+        ) %>
+      <% else %>
+        <p class="text-base-content/60"><%= t('users.show.no_sessions', default: 'No active sessions') %></p>
+      <% end %>
+    </div>
+
+    <%# Action buttons %>
+    <div class="flex items-center gap-2 justify-end pt-4 border-t border-base-300">
+      <%= link_to t('common.actions.edit'), edit_user_path(@user), 
+          class: "btn btn-accent text-white",
+          data: { 
+            turbo_frame: "modal-content",
+            modal_title_param: t('users.edit.title', default: 'Edit User')
+          } %>
+      <%= button_to t('common.actions.delete'), user_path(@user),
+          method: :delete,
+          class: "btn btn-error",
+          data: { 
+            turbo_confirm: t('users.messages.confirm_delete', default: 'Are you sure you want to delete this user?'),
+            turbo_frame: "_top"
+          } %>
+    </div>
+  </div>
+<% end %>

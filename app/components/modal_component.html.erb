@@ -1,0 +1,24 @@
+<dialog id="<%= @id %>" class="<%= modal_dialog_classes %>" data-controller="modal" data-modal-backdrop-dismissable-value="<%= @backdrop_dismissable %>">
+  <div class="<%= modal_box_classes %>">
+    <% if @closable %>
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute rtl:left-2 ltr:right-2 top-2">✕</button>
+      </form>
+    <% end %>
+
+    <h3 class="<%= title_classes %>" data-modal-target="title"><%= @title.presence %></h3>
+
+    <div class="<%= content_classes %>">
+      <%= turbo_frame_tag @turbo_frame_id do %>
+        <div class="flex items-center justify-center p-8">
+          <span class="loading loading-spinner loading-lg"></span>
+          <p class="hidden">Loading...</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @backdrop_dismissable %>
+    <div class="modal-backdrop blur-3xl" data-action="click->modal#close"></div>
+  <% end %>
+</dialog>

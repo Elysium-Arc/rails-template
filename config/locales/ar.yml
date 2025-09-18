@@ -1,0 +1,517 @@
+ar:
+  # ActiveRecord model and attribute translations
+  activerecord:
+    models:
+      user:
+        one: "مستخدم"
+        other: "مستخدمون"
+      session:
+        one: "جلسة"
+        other: "جلسات"
+      terminal:
+        one: "جهاز طرفي"
+        other: "أجهزة طرفية"
+      clock:
+        one: "تسجيل حضور"
+        other: "تسجيلات حضور"
+    attributes:
+      user:
+        email_address: "البريد الإلكتروني"
+        password: "كلمة المرور"
+        password_confirmation: "تأكيد كلمة المرور"
+        created_at: "تاريخ الإنشاء"
+        updated_at: "تاريخ التحديث"
+      session:
+        token: "رمز الجلسة"
+        email_address: "البريد الإلكتروني"
+        password: "كلمة المرور"
+      terminal:
+        name: "الاسم"
+        provider: "المزود"
+        provider: "نوع المزود"
+        ip: "عنوان IP"
+        port: "المنفذ"
+        protocol: "البروتوكول"
+        username: "اسم المستخدم"
+        password: "كلمة المرور"
+        status: "الحالة"
+        ssl_verify: "التحقق من شهادة SSL"
+        device_name: "اسم الجهاز"
+        device_id: "معرف الجهاز"
+        model: "الطراز"
+        serial_number: "الرقم التسلسلي"
+        firmware_version: "إصدار البرنامج الثابت"
+        online: "متصل"
+        last_checked_at: "آخر فحص"
+        last_synced_at: "آخر مزامنة"
+        listener_configured: "تم تكوين المستمع"
+        listener_url: "رابط المستمع"
+        listener_configured_at: "تم تكوين المستمع في"
+        user_count: "عدد المستخدمين"
+        last_user_sync_at: "آخر مزامنة للمستخدمين"
+        metadata: "البيانات الوصفية"
+        created_at: "تاريخ الإنشاء"
+        updated_at: "تاريخ التحديث"
+      clock:
+        terminal: "الجهاز"
+        terminal_id: "الجهاز"
+        employee_no: "رقم الموظف"
+        event_type: "نوع الحدث"
+        clocked_at: "وقت التسجيل"
+        device_id: "معرف الجهاز"
+        raw_event_data: "البيانات الأصلية"
+        created_at: "تاريخ التسجيل"
+        updated_at: "تاريخ التحديث"
+    errors:
+      messages:
+        blank: "لا يمكن أن يكون فارغاً"
+        taken: "مستخدم بالفعل"
+        too_short: "قصير جداً (الحد الأدنى %{count} حرف)"
+        too_long: "طويل جداً (الحد الأقصى %{count} حرف)"
+        invalid: "غير صالح"
+        invalid_format: "صيغة غير صالحة"
+        invalid_url: "يجب أن يكون عنوان URL صالح"
+        greater_than: "يجب أن يكون أكبر من %{count}"
+        less_than_or_equal_to: "يجب أن يكون أقل من أو يساوي %{count}"
+      models:
+        user:
+          attributes:
+            email_address:
+              invalid_format: "يجب أن يكون عنوان بريد إلكتروني صالح"
+              taken: "مسجل بالفعل"
+            password:
+              too_short: "قصير جداً (8 أحرف كحد أدنى)"
+        terminal:
+          attributes:
+            ip:
+              invalid_format: "يجب أن يكون عنوان IP أو اسم مضيف صالح"
+              already_exists: "ومجموعة المنفذ مسجلة بالفعل"
+            port:
+              not_a_number: "يجب أن يكون رقماً"
+              greater_than: "يجب أن يكون أكبر من 0"
+              less_than_or_equal_to: "يجب أن يكون أقل من أو يساوي 65535"
+            listener_url:
+              invalid_url: "يجب أن يكون عنوان URL من نوع HTTP أو HTTPS صالح"
+
+  # Views and components
+  sessions:
+    new:
+      title: "تسجيل الدخول"
+      subtitle: "مرحباً بعودتك! يرجى تسجيل الدخول إلى حسابك."
+      email: "البريد الإلكتروني"
+      password: "كلمة المرور"
+      submit: "تسجيل الدخول"
+      error: "حاول بريدًا إلكترونيًا أو كلمة مرور أخرى."
+      errors:
+        user_not_found: "لا يوجد حساب بهذا البريد الإلكتروني."
+        invalid_password: "كلمة المرور غير صحيحة لهذا البريد الإلكتروني."
+
+  passwords:
+    new:
+      title: "هل نسيت كلمة المرور؟"
+      email: "أدخل بريدك الإلكتروني"
+      submit: "إرسال تعليمات إعادة التعيين"
+    edit:
+      title: "تحديث كلمة المرور"
+      password: "كلمة المرور"
+      password_confirmation: "تأكيد كلمة المرور"
+      submit: "حفظ"
+    create:
+      notice: "تم إرسال تعليمات إعادة تعيين كلمة المرور (إذا كان هناك مستخدم بهذا البريد)."
+    update:
+      notice: "تمت إعادة تعيين كلمة المرور."
+      alert: "كلمات المرور غير متطابقة."
+    token:
+      invalid: "رابط إعادة تعيين كلمة المرور غير صالح أو انتهت صلاحيته."
+
+  dashboard:
+    index:
+      title: "لوحة التحكم"
+
+  sidebar:
+    links:
+      dashboard: "لوحة التحكم"
+      profile: "الملف الشخصي"
+      terminals: "الأجهزة الطرفية"
+      clocks: "تسجيلات الحضور"
+      users: "المستخدمون"
+
+  # Global UI elements
+  common:
+    actions:
+      create: "إنشاء"
+      update: "تحديث"
+      save: "حفظ"
+      saving: "جاري الحفظ..."
+      cancel: "إلغاء"
+      edit: "تعديل"
+      delete: "حذف"
+      view: "عرض"
+      back: "رجوع"
+      confirm: "هل أنت متأكد؟"
+    status:
+      online: "متصل"
+      offline: "غير متصل"
+      active: "نشط"
+      idle: "خامل"
+      inactive: "غير نشط"
+    messages:
+      not_available: "غير متوفر"
+      never: "أبداً"
+      success: "تمت العملية بنجاح"
+      error: "حدث خطأ"
+
+  # Form helpers
+  helpers:
+    submit:
+      create: "إنشاء %{model}"
+      update: "تحديث %{model}"
+      submit: "حفظ %{model}"
+    select:
+      prompt: "الرجاء الاختيار"
+    label:
+      terminal:
+        name: "اسم الجهاز"
+        ip: "عنوان IP"
+        port: "المنفذ"
+        protocol: "البروتوكول"
+        username: "اسم المستخدم"
+        password: "كلمة المرور"
+        provider: "نوع المزود"
+        status: "الحالة"
+        ssl_verify: "التحقق من شهادة SSL"
+    placeholder:
+      terminal:
+        name: "مثال: جهاز المدخل الرئيسي"
+        ip: "مثال: 192.168.1.100"
+        port: "80"
+        username: "admin"
+        password: "أدخل كلمة المرور"
+    hint:
+      terminal:
+        password_edit: "اتركه فارغاً للإبقاء على كلمة المرور الحالية"
+        ssl_verify: "قم بتعطيله للشهادات الموقعة ذاتياً"
+
+  # Table component
+  table:
+    select_all: "تحديد الكل"
+    actions: "الإجراءات"
+    empty_message: "لم يتم العثور على سجلات"
+    no_data_available: "لا توجد بيانات متاحة"
+
+  # Filter component
+  filters:
+    add_filter: "إضافة فلتر"
+    clear_all: "مسح الكل"
+    apply_filters: "تطبيق الفلاتر"
+    all_option: "جميع %{attribute}"
+    search_filters: "البحث في الفلاتر..."
+    sort: "ترتيب"
+    ascending: "تصاعدي"
+    descending: "تنازلي"
+    search_sort: "البحث في خيارات الترتيب..."
+    operators:
+      cont: "يحتوي"
+      eq: "يساوي"
+      start: "يبدأ ب"
+      end: "ينتهي ب"
+      not_cont: "لا يحتوي"
+      gt: "بعد"
+      gteq: "في أو بعد"
+      lt: "قبل"
+      lteq: "في أو قبل"
+      yes: "نعم"
+      no: "لا"
+
+  # Pagination component
+  pagy:
+    show: "عرض:"
+    prev: "السابق"
+    next: "التالي"
+    info: "عرض %{from} إلى %{to} من أصل %{count} إدخال"
+    info_short: "%{from}-%{to} من %{count}"
+
+  # View-specific translations
+  users:
+    index:
+      title: "المستخدمون"
+      empty_message: "لم يتم العثور على مستخدمين. أنشئ أول مستخدم للبدء."
+    show:
+      title: "تفاصيل المستخدم"
+      sessions: "الجلسات النشطة"
+      session_started: "البداية"
+      session_last_active: "آخر نشاط"
+      session_ip: "عنوان IP"
+      session_user_agent: "الجهاز"
+      no_sessions: "لا توجد جلسات نشطة"
+    new:
+      title: "مستخدم جديد"
+    edit:
+      title: "تعديل المستخدم"
+    form:
+      password_confirmation: "تأكيد كلمة المرور"
+      hints:
+        email: "عنوان البريد الإلكتروني لتسجيل الدخول"
+        password: "8 أحرف كحد أدنى"
+        password_optional: "اتركه فارغاً للاحتفاظ بكلمة المرور الحالية (8 أحرف كحد أدنى إذا تم التغيير)"
+    columns:
+      email: "البريد الإلكتروني"
+      status: "الحالة"
+      created_at: "تاريخ الإنشاء"
+      updated_at: "تاريخ التحديث"
+    messages:
+      created: "تم إنشاء المستخدم بنجاح"
+      updated: "تم تحديث المستخدم بنجاح"
+      deleted: "تم حذف المستخدم بنجاح"
+      confirm_delete: "هل أنت متأكد من حذف هذا المستخدم؟ سيتم حذف جميع الجلسات المرتبطة أيضاً."
+    errors:
+      duplicate: "يوجد مستخدم بهذا البريد الإلكتروني بالفعل"
+
+  terminals:
+    index:
+      title: "الأجهزة الطرفية"
+      empty_message: "لم يتم العثور على أجهزة. أنشئ جهازك الأول للبدء."
+    show:
+      title: "تفاصيل الجهاز"
+      details: "معلومات الجهاز"
+      recent_clocks: "تسجيلات الحضور الأخيرة"
+      view_all_clocks: "عرض جميع التسجيلات"
+      no_clocks: "لا توجد تسجيلات حضور بعد"
+      stats:
+        total_clocks: "إجمالي الأحداث"
+        today: "اليوم"
+        this_week: "هذا الأسبوع"
+        this_month: "هذا الشهر"
+    new:
+      title: "جهاز جديد"
+    edit:
+      title: "تعديل الجهاز"
+    form:
+      name: "اسم الجهاز"
+      name_placeholder: "مثال: جهاز المدخل الرئيسي"
+      provider: "المزود"
+      ip: "عنوان IP"
+      port: "المنفذ"
+      protocol: "البروتوكول"
+      username: "اسم المستخدم"
+      password: "كلمة المرور"
+      ssl_verify: "التحقق من شهادة SSL"
+      sections:
+        basic_info: "المعلومات الأساسية"
+        connection: "تفاصيل الاتصال"
+        authentication: "المصادقة"
+        security: "خيارات الأمان"
+      hints:
+        name: "اسم مميز لتحديد هذا الجهاز"
+        ip: "عنوان IP الخاص بالجهاز"
+        port: "رقم المنفذ للاتصال"
+        username: "اسم المستخدم للمصادقة (إذا لزم الأمر)"
+        password: "اتركه فارغاً للحفاظ على كلمة المرور الحالية"
+        ssl_verify: "قم بتعطيله للشهادات الموقعة ذاتياً"
+    columns:
+      name: "الاسم"
+      ip: "عنوان IP"
+      port: "المنفذ"
+      protocol: "البروتوكول"
+      provider: "المزود"
+      status: "الحالة"
+      device_name: "اسم الجهاز"
+      model: "الطراز"
+      serial_number: "الرقم التسلسلي"
+      firmware_version: "إصدار البرنامج الثابت"
+      last_synced: "آخر مزامنة"
+      created_at: "تاريخ الإنشاء"
+    actions:
+      sync_now: "مزامنة الآن"
+    messages:
+      created: "تم إنشاء الجهاز بنجاح"
+      updated: "تم تحديث الجهاز بنجاح"
+      destroyed: "تم حذف الجهاز بنجاح"
+      sync_enqueued: "تمت جدولة المزامنة"
+      terminal_offline: "يجب أن يكون الجهاز متصلاً للمزامنة"
+      confirm_delete: "هل أنت متأكد من حذف هذا الجهاز؟ سيتم حذف جميع تسجيلات الحضور المرتبطة أيضاً."
+    errors:
+      duplicate: "يوجد جهاز بنفس عنوان IP ورقم المنفذ بالفعل"
+
+  clocks:
+    index:
+      title: "تسجيلات الحضور"
+      title_for_terminal: "تسجيلات الحضور لـ %{terminal_name}"
+      empty_message: "لم يتم العثور على تسجيلات."
+    show:
+      title: "تفاصيل التسجيل"
+      details: "معلومات الحدث"
+      view_raw_data: "عرض البيانات الأصلية"
+      view_all_clocks: "عرض جميع التسجيلات"
+      view_terminal: "عرض الجهاز"
+    columns:
+      terminal: "الجهاز"
+      employee_no: "رقم الموظف"
+      event_type: "نوع الحدث"
+      clocked_at: "وقت التسجيل"
+      device_id: "معرف الجهاز"
+      raw_event_data: "البيانات الأصلية"
+      created_at: "تاريخ التسجيل"
+      updated_at: "تاريخ التحديث"
+    messages:
+      destroyed: "تم حذف التسجيل بنجاح"
+      confirm_delete: "هل أنت متأكد من حذف هذا التسجيل?"
+
+  flash:
+    alert: "حدثت مشكلة."
+    notice: "تمت العملية بنجاح."
+    rate_limited: "عدد المحاولات كبير جدا، الرجاء المحاولة لاحقًا."
+    sessions:
+      login_success: "تم تسجيل الدخول بنجاح."
+      logout_success: "تم تسجيل الخروج بنجاح."
+
+  topbar:
+    default_title: "Pulsar"
+    language: "اللغة"
+    theme: "السمة"
+    logout: "تسجيل الخروج"
+    user_profile: "الملف الشخصي"
+    languages:
+      en: "English"
+      fr: "Français"
+      ar: "العربية"
+
+  simple_form:
+    yes: "نعم"
+    no: "لا"
+    required:
+      text: "مطلوب"
+      mark: "*"
+    error_notification:
+      default_message: "يرجى مراجعة المشاكل أدناه:"
+
+  # Date/time formats
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d %b"
+      long: "%d %B %Y"
+
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y %H:%M"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "نصف دقيقة"
+      less_than_x_seconds:
+        one: "أقل من ثانية"
+        other: "أقل من %{count} ثانية"
+      x_seconds:
+        one: "ثانية واحدة"
+        other: "%{count} ثانية"
+      less_than_x_minutes:
+        one: "أقل من دقيقة"
+        other: "أقل من %{count} دقيقة"
+      x_minutes:
+        one: "دقيقة واحدة"
+        other: "%{count} دقيقة"
+      about_x_hours:
+        one: "حوالي ساعة"
+        other: "حوالي %{count} ساعة"
+      x_days:
+        one: "يوم واحد"
+        other: "%{count} يوم"
+      about_x_months:
+        one: "حوالي شهر"
+        other: "حوالي %{count} شهر"
+      x_months:
+        one: "شهر واحد"
+        other: "%{count} شهر"
+      about_x_years:
+        one: "حوالي سنة"
+        other: "حوالي %{count} سنة"
+      over_x_years:
+        one: "أكثر من سنة"
+        other: "أكثر من %{count} سنة"
+
+    sessions:
+      login_success: "تم تسجيل الدخول بنجاح."
+      logout_success: "تم تسجيل الخروج بنجاح."
+
+  topbar:
+    language: "اللغة"
+    theme: "السمة"
+    logout: "تسجيل الخروج"
+    user_profile: "ملف المستخدم"
+    languages:
+      en: "English"
+      fr: "Français"
+      ar: "العربية"
+
+  simple_form:
+    yes: 'نعم'
+    no: 'لا'
+    required:
+      text: 'إلزامي'
+      mark: '*'
+    error_notification:
+      default_message: "يرجى مراجعة المشاكل أدناه:"
+
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%d %b"
+      long: "%d %B %Y"
+    month_names:
+      - "~"
+      - "يناير"
+      - "فبراير"
+      - "مارس"
+      - "أبريل"
+      - "مايو"
+      - "يونيو"
+      - "يوليو"
+      - "أغسطس"
+      - "سبتمبر"
+      - "أكتوبر"
+      - "نوفمبر"
+      - "ديسمبر"
+
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y %H:%M"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "نصف دقيقة"
+      less_than_x_seconds:
+        one: "أقل من ثانية"
+        other: "أقل من %{count} ثوانٍ"
+      x_seconds:
+        one: "1 ثانية"
+        other: "%{count} ثوانٍ"
+      less_than_x_minutes:
+        one: "أقل من دقيقة"
+        other: "أقل من %{count} دقائق"
+      x_minutes:
+        one: "1 دقيقة"
+        other: "%{count} دقائق"
+      about_x_hours:
+        one: "حوالي ساعة واحدة"
+        other: "حوالي %{count} ساعات"
+      x_days:
+        one: "1 يوم"
+        other: "%{count} أيام"
+      about_x_months:
+        one: "حوالي شهر"
+        other: "حوالي %{count} أشهر"
+      x_months:
+        one: "1 شهر"
+        other: "%{count} أشهر"
+      about_x_years:
+        one: "حوالي سنة"
+        other: "حوالي %{count} سنوات"
+      over_x_years:
+        one: "أكثر من سنة"
+        other: "أكثر من %{count} سنوات"
+

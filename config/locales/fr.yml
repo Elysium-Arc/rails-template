@@ -1,0 +1,517 @@
+fr:
+  # ActiveRecord model and attribute translations
+  activerecord:
+    models:
+      user:
+        one: "Utilisateur"
+        other: "Utilisateurs"
+      session:
+        one: "Session"
+        other: "Sessions"
+      terminal:
+        one: "Terminal"
+        other: "Terminaux"
+      clock:
+        one: "Pointage"
+        other: "Pointages"
+    attributes:
+      user:
+        email_address: "Adresse e-mail"
+        password: "Mot de passe"
+        password_confirmation: "Confirmation du mot de passe"
+        created_at: "Créé le"
+        updated_at: "Mis à jour le"
+      session:
+        token: "Jeton de session"
+        email_address: "Adresse e-mail"
+        password: "Mot de passe"
+      terminal:
+        name: "Nom"
+        provider: "Fournisseur"
+        provider: "Type de fournisseur"
+        ip: "Adresse IP"
+        port: "Port"
+        protocol: "Protocole"
+        username: "Nom d'utilisateur"
+        password: "Mot de passe"
+        status: "Statut"
+        ssl_verify: "Vérifier le certificat SSL"
+        device_name: "Nom de l'appareil"
+        device_id: "ID de l'appareil"
+        model: "Modèle"
+        serial_number: "Numéro de série"
+        firmware_version: "Version du firmware"
+        online: "En ligne"
+        last_checked_at: "Dernière vérification"
+        last_synced_at: "Dernière synchronisation"
+        listener_configured: "Écouteur configuré"
+        listener_url: "URL de l'écouteur"
+        listener_configured_at: "Écouteur configuré le"
+        user_count: "Nombre d'utilisateurs"
+        last_user_sync_at: "Dernière synchro utilisateurs"
+        metadata: "Métadonnées"
+        created_at: "Créé"
+        updated_at: "Mis à jour"
+      clock:
+        terminal: "Terminal"
+        terminal_id: "Terminal"
+        employee_no: "N° employé"
+        event_type: "Type d'événement"
+        clocked_at: "Pointé à"
+        device_id: "ID de l'appareil"
+        raw_event_data: "Données brutes"
+        created_at: "Enregistré"
+        updated_at: "Mis à jour"
+    errors:
+      messages:
+        blank: "ne peut pas être vide"
+        taken: "est déjà utilisé"
+        too_short: "est trop court (minimum %{count} caractères)"
+        too_long: "est trop long (maximum %{count} caractères)"
+        invalid: "est invalide"
+        invalid_format: "a un format invalide"
+        invalid_url: "doit être une URL valide"
+        greater_than: "doit être supérieur à %{count}"
+        less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
+      models:
+        user:
+          attributes:
+            email_address:
+              invalid_format: "doit être une adresse e-mail valide"
+              taken: "est déjà enregistrée"
+            password:
+              too_short: "est trop court (minimum 8 caractères)"
+        terminal:
+          attributes:
+            ip:
+              invalid_format: "doit être une adresse IP ou un nom d'hôte valide"
+              already_exists: "et la combinaison de port est déjà enregistrée"
+            port:
+              not_a_number: "doit être un nombre"
+              greater_than: "doit être supérieur à 0"
+              less_than_or_equal_to: "doit être inférieur ou égal à 65535"
+            listener_url:
+              invalid_url: "doit être une URL HTTP ou HTTPS valide"
+
+  # Views and components
+  sessions:
+    new:
+      title: "Connexion"
+      subtitle: "Bienvenue! Veuillez vous connecter à votre compte."
+      email: "E-mail"
+      password: "Mot de passe"
+      submit: "Connexion"
+      error: "Essayez une autre adresse e-mail ou un autre mot de passe."
+      errors:
+        user_not_found: "Aucun compte trouvé pour cette adresse e-mail."
+        invalid_password: "Mot de passe incorrect pour cette adresse e-mail."
+
+  passwords:
+    new:
+      title: "Mot de passe oublié ?"
+      email: "Entrez votre adresse e-mail"
+      submit: "Envoyer les instructions de réinitialisation"
+    edit:
+      title: "Mettre à jour votre mot de passe"
+      password: "Mot de passe"
+      password_confirmation: "Confirmation du mot de passe"
+      submit: "Enregistrer"
+    create:
+      notice: "Instructions de réinitialisation envoyées (si un utilisateur avec cet e-mail existe)."
+    update:
+      notice: "Le mot de passe a été réinitialisé."
+      alert: "Les mots de passe ne correspondent pas."
+    token:
+      invalid: "Le lien de réinitialisation est invalide ou a expiré."
+
+  dashboard:
+    index:
+      title: "Tableau de bord"
+
+  sidebar:
+    links:
+      dashboard: "Tableau de bord"
+      profile: "Profil"
+      terminals: "Terminaux"
+      clocks: "Pointages"
+      users: "Utilisateurs"
+
+  # Global UI elements
+  common:
+    actions:
+      create: "Créer"
+      update: "Mettre à jour"
+      save: "Enregistrer"
+      saving: "Enregistrement..."
+      cancel: "Annuler"
+      edit: "Modifier"
+      delete: "Supprimer"
+      view: "Voir"
+      back: "Retour"
+      confirm: "Êtes-vous sûr ?"
+    status:
+      online: "En ligne"
+      offline: "Hors ligne"
+      active: "Actif"
+      idle: "Inactif"
+      inactive: "Inactif"
+    messages:
+      not_available: "N/D"
+      never: "Jamais"
+      success: "Opération effectuée avec succès"
+      error: "Une erreur s'est produite"
+
+  # Form helpers
+  helpers:
+    submit:
+      create: "Créer %{model}"
+      update: "Mettre à jour %{model}"
+      submit: "Enregistrer %{model}"
+    select:
+      prompt: "Veuillez sélectionner"
+    label:
+      terminal:
+        name: "Nom du terminal"
+        ip: "Adresse IP"
+        port: "Port"
+        protocol: "Protocole"
+        username: "Nom d'utilisateur"
+        password: "Mot de passe"
+        provider: "Type de fournisseur"
+        status: "Statut"
+        ssl_verify: "Vérifier le certificat SSL"
+    placeholder:
+      terminal:
+        name: "ex: Terminal Entrée Principale"
+        ip: "ex: 192.168.1.100"
+        port: "80"
+        username: "admin"
+        password: "Entrez le mot de passe"
+    hint:
+      terminal:
+        password_edit: "Laissez vide pour conserver le mot de passe actuel"
+        ssl_verify: "Désactiver pour les certificats auto-signés"
+
+  # Table component
+  table:
+    select_all: "Tout sélectionner"
+    actions: "Actions"
+    empty_message: "Aucun enregistrement trouvé"
+    no_data_available: "Aucune donnée disponible"
+
+  # Filter component
+  filters:
+    add_filter: "Ajouter un filtre"
+    clear_all: "Tout effacer"
+    apply_filters: "Appliquer les filtres"
+    all_option: "Tous les %{attribute}"
+    search_filters: "Rechercher des filtres..."
+    sort: "Trier"
+    ascending: "Croissant"
+    descending: "Décroissant"
+    search_sort: "Rechercher des options de tri..."
+    operators:
+      cont: "Contient"
+      eq: "Égale"
+      start: "Commence par"
+      end: "Finit par"
+      not_cont: "Ne contient pas"
+      gt: "Après"
+      gteq: "À ou après"
+      lt: "Avant"
+      lteq: "À ou avant"
+      yes: "Oui"
+      no: "Non"
+
+  # Pagination component
+  pagy:
+    show: "Afficher :"
+    prev: "Précédent"
+    next: "Suivant"
+    info: "Affichage de %{from} à %{to} sur %{count} entrées"
+    info_short: "%{from}-%{to} sur %{count}"
+
+  # View-specific translations
+  users:
+    index:
+      title: "Utilisateurs"
+      empty_message: "Aucun utilisateur trouvé. Créez votre premier utilisateur pour commencer."
+    show:
+      title: "Détails de l'utilisateur"
+      sessions: "Sessions actives"
+      session_started: "Commencée"
+      session_last_active: "Dernière activité"
+      session_ip: "Adresse IP"
+      session_user_agent: "Appareil"
+      no_sessions: "Aucune session active"
+    new:
+      title: "Nouvel utilisateur"
+    edit:
+      title: "Modifier l'utilisateur"
+    form:
+      password_confirmation: "Confirmer le mot de passe"
+      hints:
+        email: "Adresse e-mail pour la connexion"
+        password: "Minimum 8 caractères"
+        password_optional: "Laissez vide pour conserver le mot de passe actuel (minimum 8 caractères si changé)"
+    columns:
+      email: "E-mail"
+      status: "Statut"
+      created_at: "Créé le"
+      updated_at: "Mis à jour le"
+    messages:
+      created: "Utilisateur créé avec succès"
+      updated: "Utilisateur mis à jour avec succès"
+      deleted: "Utilisateur supprimé avec succès"
+      confirm_delete: "Êtes-vous sûr de vouloir supprimer cet utilisateur ? Toutes les sessions associées seront également supprimées."
+    errors:
+      duplicate: "Un utilisateur avec cette adresse e-mail existe déjà"
+
+  terminals:
+    index:
+      title: "Terminaux"
+      empty_message: "Aucun terminal trouvé. Créez votre premier terminal pour commencer."
+    show:
+      title: "Détails du terminal"
+      details: "Informations du terminal"
+      recent_clocks: "Pointages récents"
+      view_all_clocks: "Voir tous les pointages"
+      no_clocks: "Aucun pointage enregistré"
+      stats:
+        total_clocks: "Total des événements"
+        today: "Aujourd'hui"
+        this_week: "Cette semaine"
+        this_month: "Ce mois-ci"
+    new:
+      title: "Nouveau terminal"
+    edit:
+      title: "Modifier le terminal"
+    form:
+      name: "Nom du terminal"
+      name_placeholder: "ex: Terminal Entrée Principale"
+      provider: "Fournisseur"
+      ip: "Adresse IP"
+      port: "Port"
+      protocol: "Protocole"
+      username: "Nom d'utilisateur"
+      password: "Mot de passe"
+      ssl_verify: "Vérifier le certificat SSL"
+      sections:
+        basic_info: "Informations de base"
+        connection: "Détails de connexion"
+        authentication: "Authentification"
+        security: "Options de sécurité"
+      hints:
+        name: "Un nom convivial pour identifier ce terminal"
+        ip: "L'adresse IP du terminal"
+        port: "Le numéro de port pour la connexion"
+        username: "Nom d'utilisateur pour l'authentification (si requis)"
+        password: "Laissez vide pour conserver le mot de passe actuel"
+        ssl_verify: "Désactiver pour les certificats auto-signés"
+    columns:
+      name: "Nom"
+      ip: "Adresse IP"
+      port: "Port"
+      protocol: "Protocole"
+      provider: "Fournisseur"
+      status: "Statut"
+      device_name: "Nom de l'appareil"
+      model: "Modèle"
+      serial_number: "Numéro de série"
+      firmware_version: "Version du firmware"
+      last_synced: "Dernière synchronisation"
+      created_at: "Créé"
+    actions:
+      sync_now: "Synchroniser maintenant"
+    messages:
+      created: "Terminal créé avec succès"
+      updated: "Terminal mis à jour avec succès"
+      destroyed: "Terminal supprimé avec succès"
+      sync_enqueued: "La synchronisation a été mise en file d'attente"
+      terminal_offline: "Le terminal doit être en ligne pour synchroniser"
+      confirm_delete: "Êtes-vous sûr de vouloir supprimer ce terminal ? Tous les pointages associés seront également supprimés."
+    errors:
+      duplicate: "Un terminal avec cette combinaison d'adresse IP et de port existe déjà"
+
+  clocks:
+    index:
+      title: "Pointages"
+      title_for_terminal: "Pointages pour %{terminal_name}"
+      empty_message: "Aucun pointage trouvé."
+    show:
+      title: "Détails du pointage"
+      details: "Informations de l'événement"
+      view_raw_data: "Voir les données brutes"
+      view_all_clocks: "Voir tous les pointages"
+      view_terminal: "Voir le terminal"
+    columns:
+      terminal: "Terminal"
+      employee_no: "N° employé"
+      event_type: "Type d'événement"
+      clocked_at: "Pointé à"
+      device_id: "ID de l'appareil"
+      raw_event_data: "Données brutes"
+      created_at: "Enregistré"
+      updated_at: "Mis à jour"
+    messages:
+      destroyed: "Pointage supprimé avec succès"
+      confirm_delete: "Êtes-vous sûr de vouloir supprimer ce pointage ?"
+
+  flash:
+    alert: "Il y a eu un problème."
+    notice: "Opération réussie."
+    rate_limited: "Trop de tentatives, réessayez plus tard."
+    sessions:
+      login_success: "Connecté avec succès."
+      logout_success: "Déconnecté avec succès."
+
+  topbar:
+    default_title: "Pulsar"
+    language: "Langue"
+    theme: "Thème"
+    logout: "Déconnexion"
+    user_profile: "Profil utilisateur"
+    languages:
+      en: "English"
+      fr: "Français"
+      ar: "العربية"
+
+  simple_form:
+    yes: "Oui"
+    no: "Non"
+    required:
+      text: "requis"
+      mark: "*"
+    error_notification:
+      default_message: "Veuillez vérifier les problèmes ci-dessous :"
+
+  # Date/time formats
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d %b"
+      long: "%d %B %Y"
+
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y %H:%M"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "une demi-minute"
+      less_than_x_seconds:
+        one: "moins d'une seconde"
+        other: "moins de %{count} secondes"
+      x_seconds:
+        one: "1 seconde"
+        other: "%{count} secondes"
+      less_than_x_minutes:
+        one: "moins d'une minute"
+        other: "moins de %{count} minutes"
+      x_minutes:
+        one: "1 minute"
+        other: "%{count} minutes"
+      about_x_hours:
+        one: "environ une heure"
+        other: "environ %{count} heures"
+      x_days:
+        one: "1 jour"
+        other: "%{count} jours"
+      about_x_months:
+        one: "environ un mois"
+        other: "environ %{count} mois"
+      x_months:
+        one: "1 mois"
+        other: "%{count} mois"
+      about_x_years:
+        one: "environ un an"
+        other: "environ %{count} ans"
+      over_x_years:
+        one: "plus d'un an"
+        other: "plus de %{count} ans"
+
+    rate_limited: "Trop de tentatives, réessayez plus tard."
+    sessions:
+      login_success: "Connecté avec succès."
+      logout_success: "Déconnecté avec succès."
+
+  topbar:
+    language: "Langue"
+    theme: "Thème"
+    logout: "Déconnexion"
+    user_profile: "Profil utilisateur"
+    languages:
+      en: "English"
+      fr: "Français"
+      ar: "العربية"
+
+  simple_form:
+    yes: 'Oui'
+    no: 'Non'
+    required:
+      text: 'obligatoire'
+      mark: '*'
+    error_notification:
+      default_message: "Veuillez vérifier les problèmes ci-dessous :"
+
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      short: "%d %b"
+      long: "%d %B %Y"
+    month_names:
+      - ~
+      - "Janvier"
+      - "Février"
+      - "Mars"
+      - "Avril"
+      - "Mai"
+      - "Juin"
+      - "Juillet"
+      - "Août"
+      - "Septembre"
+      - "Octobre"
+      - "Novembre"
+      - "Décembre"
+
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y %H:%M"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "une demi-minute"
+      less_than_x_seconds:
+        one: "moins d'une seconde"
+        other: "moins de %{count} secondes"
+      x_seconds:
+        one: "1 seconde"
+        other: "%{count} secondes"
+      less_than_x_minutes:
+        one: "moins d'une minute"
+        other: "moins de %{count} minutes"
+      x_minutes:
+        one: "1 minute"
+        other: "%{count} minutes"
+      about_x_hours:
+        one: "environ 1 heure"
+        other: "environ %{count} heures"
+      x_days:
+        one: "1 jour"
+        other: "%{count} jours"
+      about_x_months:
+        one: "environ 1 mois"
+        other: "environ %{count} mois"
+      x_months:
+        one: "1 mois"
+        other: "%{count} mois"
+      about_x_years:
+        one: "environ 1 an"
+        other: "environ %{count} ans"
+      over_x_years:
+        one: "plus d'un an"
+        other: "plus de %{count} ans"

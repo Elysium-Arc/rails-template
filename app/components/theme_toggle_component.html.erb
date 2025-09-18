@@ -1,0 +1,4 @@
+<button data-controller="theme" data-action="click->theme#toggle" title="Toggle theme" class="<%= @full_width ? 'flex justify-between gap-2 w-full' : '' %>">
+  <span><%= t('topbar.theme') %></span>
+  <span data-theme-target="icon">🌙</span>
+</button>

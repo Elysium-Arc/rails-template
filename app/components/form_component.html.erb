@@ -1,0 +1,43 @@
+<%= form_with model: @model, url: @url, method: @method, html: form_html_options do |form| %>
+  <%# if @model.errors.any? %>
+<!--    <div class="alert alert-error mb-6">
+      <div>
+        <h3 class="font-bold"><%#= I18n.t('simple_form.error_notification.default_message', default: 'Please review the problems below:') %></h3>
+        <ul class="list-disc list-inside mt-2">
+          <%# @model.errors.full_messages.each do |message| %>-->
+<!--            <li><%#= message %></li>-->
+          <%# end %>
+<!--        </ul>
+      </div>
+    </div>
+  <%# end %>-->
+  <% if has_sections? %>
+    <% @sections.each do |section| %>
+      <%= render_section(form, section) %>
+    <% end %>
+  <% elsif has_fields? %>
+    <div class="<%= form_section_classes %>">
+      <% @fields.each do |field| %>
+        <%= render_field(form, field) %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= content %>
+  <div class="<%= button_group_classes %>">
+    <% if show_cancel? && @cancel_url %>
+      <%= link_to I18n.t('common.actions.cancel', default: 'Cancel'), @cancel_url, class: cancel_button_classes, data: { turbo: false } %>
+    <% elsif show_cancel? %>
+      <button type="button" class="<%= cancel_button_classes %>" data-action="click->modal#close">
+        <%= I18n.t('common.actions.cancel', default: 'Cancel') %>
+      </button>
+    <% end %>
+    <% if submit_icon %>
+      <%= form.button type: 'submit', class: "#{submit_button_classes} flex items-center justify-center gap-2" do %>
+        <%= icon submit_icon, library: "lucide", class: "h-5 w-5" %>
+        <%= submit_text %>
+      <% end %>
+    <% else %>
+      <%= form.submit submit_text, class: submit_button_classes %>
+    <% end %>
+  </div>
+<% end %>

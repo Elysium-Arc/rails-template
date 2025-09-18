@@ -1,0 +1,25 @@
+<section class="<%= position_class %>" aria-live="polite" aria-label="Flash messages">
+  <div
+    id="flash-messages"
+    data-controller="flash"
+    data-flash-animation-duration-value="<%= animation_duration %>"
+    class="space-y-2 max-w-sm"
+  >
+    <% flash.each do |type, message| %>
+      <% next if message.blank? %>
+      <% if custom_template?(type) %>
+        <div
+          class="flash-item <%= custom_classes(type, message) %>"
+          data-flash-timeout="<%= timeout_for(type, message) %>"
+          data-flash-type-value="<%= alert_type(type) %>"
+          role="status"
+          tabindex="0"
+        >
+          <%= render_custom_template(type, message) %>
+        </div>
+      <% else %>
+        <%= render partial: "shared/flash_item", locals: { type: type, message: message } %>
+      <% end %>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,8 @@
+<div class="<%= @container_classes %>" data-controller="dropdown">
+  <div role="button" class="<%= @dropdown_classes %>" data-action="click->dropdown#toggle">
+    <%= trigger %>
+  </div>
+  <ul class="<%= @menu_classes %> hidden" data-dropdown-target="menu">
+    <%= menu %>
+  </ul>
+</div>

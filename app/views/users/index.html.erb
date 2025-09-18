@@ -1,0 +1,96 @@
+<div class="mx-auto px-4 py-8">
+  <% content_for :page_title, t('users.index.title') %>
+  <%= render DataTableComponent.new(
+    title: t('users.index.title'),
+    table_frame_id: 'users-table',
+    filters: @filters,
+    active_filter_keys: @active_filter_keys,
+    columns: [
+      {
+        key: :email_address,
+        label: t('users.columns.email'),
+        sortable: true,
+        priority: :high,
+        truncate: true
+      },
+      {
+        key: :status,
+        label: t('users.columns.status'),
+        sortable: false,
+        priority: :high,
+        format: ->(user) { auto_status_badge(user.status) }
+      },
+      {
+        key: :created_at,
+        label: t('users.columns.created_at'),
+        type: :datetime,
+        sortable: true,
+        priority: :normal
+      },
+      {
+        key: :updated_at,
+        label: t('users.columns.updated_at'),
+        type: :datetime,
+        sortable: true,
+        priority: :low
+      }
+    ],
+    data: @users,
+    pagy: @pagy,
+    sort_column: params[:sort],
+    sort_direction: params[:direction],
+    current_filters: params.except(:controller, :action, :sort, :direction, :page, :limit).permit!.to_h,
+    empty_message: t('users.index.empty_message', default: 'No users found. Create your first user to get started.'),
+    selectable: true,
+    selected_ids: params[:selected_ids] || [],
+    dom_id: ->(user) { dom_id(user) },
+    record_id: ->(user) { user.hashid },
+    row_actions: [
+      {
+        label: t('common.actions.view'),
+        icon: "eye",
+        url: ->(user) { user_path(id: user.id) },
+        type: :link,
+        data: {
+          turbo_frame: "modal-content",
+          modal_title_param: t('users.show.title', default: 'User Details'),
+          modal_size: "lg"
+        }
+      },
+      {
+        label: t('common.actions.edit'),
+        icon: "pencil",
+        url: ->(user) { edit_user_path(id: user.id) },
+        type: :link,
+        data: {
+          turbo_frame: "modal-content",
+          modal_title_param: t('users.edit.title', default: 'Edit User'),
+          modal_size: "md",
+          turbo_prefetch: true
+        }
+      },
+      {
+        label: t('common.actions.delete'),
+        icon: "trash-2",
+        url: ->(user) { user_path(id: user.id) },
+        type: :button,
+        method: :delete,
+        data: { turbo_confirm: t('users.messages.confirm_delete', default: 'Are you sure you want to delete this user?') }
+      }
+    ],
+    action_buttons: [
+      {
+        label: t('users.new.title', default: 'New User'),
+        icon: "plus",
+        url: new_user_path,
+        type: :link,
+        variant: "primary",
+        data: {
+          turbo_frame: "modal-content",
+          modal_title_param: t('users.new.title', default: 'New User'),
+          modal_size: "md"
+        }
+      }
+    ]
+  ) %>
+</div>

@@ -1,0 +1,28 @@
+<aside data-controller="sidebar" data-sidebar-target="menu" class="sidebar <%= 'sidebar-collapsed' if @collapsed %> justify-between">
+  <ul class="space-y-1">
+    <button data-controller="event" data-action="click->event#broadcast" data-event-name="sidebar:toggle" class="topbar-toggle-button">
+      <%= icon "menu", library: "lucide", class: "w-5 h-5", data: { sidebar_target: 'collapse-icon' } %>
+    </button>
+    <% links.each do |link| %>
+      <li>
+        <% link_classes = active_link?(link) ? "sidebar-link sidebar-link-active" : "sidebar-link" %>
+        <% if (link[:method].present? && (link[:method] != :get)) %>
+          <%= button_to link[:name], link[:path], method: link[:method], class: link_classes do %>
+            <%= icon link[:icon], class: "w-5 h-5", data: { sidebar_target: "icon" } %>
+            <span class="sidebar-link-text <%= 'hidden' if @collapsed %>" data-sidebar-target="link"><%= link[:name] %></span>
+          <% end %>
+        <% else %>
+          <%= link_to link[:path], method: link[:method], class: link_classes do %>
+            <%= icon link[:icon], class: "w-5 h-5", data: { sidebar_target: "icon" } %>
+            <span class="sidebar-link-text <%= 'hidden' if @collapsed %>" data-sidebar-target="link"><%= link[:name] %></span>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <%= link_to root_path, id: "sidebar-logo", class: "sidebar-brand overflow-hidden h-10" do %>
+    <div class="w-full h-full">
+      <%= image_tag 'logo.svg', alt: 'Pulsar Logo', class: "logo #{'hidden' if @collapsed}" %>
+    </div>
+  <% end %>
+</aside>
