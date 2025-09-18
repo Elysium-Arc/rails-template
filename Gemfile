@@ -41,7 +41,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 # Pagination
-gem "pagy", "~> 9.3"
+gem "pagy", "~> 9.4"
 
 # Audit Active Record models
 gem "audited"
