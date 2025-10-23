@@ -1,0 +1,34 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <%= render FormComponent.new(
+    model: @role,
+    url: role_path(@role),
+    method: :patch,
+    fields: [
+      {
+        name: :name,
+        as: :text,
+        required: true,
+        autofocus: true,
+        maxlength: 255,
+        hint: t('roles.form.hints.name', default: 'Unique role name')
+      },
+      {
+        name: :description,
+        as: :textarea,
+        required: false,
+        maxlength: 500,
+        hint: t('roles.form.hints.description', default: 'Brief description of role purpose and scope')
+      },
+      {
+        name: :permission_ids,
+        as: :collection_checkboxes,
+        collection: Permission.all.order(:name),
+        value_method: :id,
+        text_method: ->(perm) { "#{perm.name} - #{perm.description}" },
+        required: false,
+        label: t('roles.form.permissions', default: 'Permissions'),
+        hint: t('roles.form.hints.permissions', default: 'Select permissions for this role')
+      }
+    ]
+  ) %>
+<% end %>
