@@ -1,0 +1,103 @@
+<div class="mx-auto px-4 py-8">
+  <% content_for :page_title, t('roles.index.title') %>
+  <%= render DataTableComponent.new(
+    title: t('roles.index.title'),
+    table_frame_id: 'roles-table',
+    filters: @filters,
+    active_filter_keys: @active_filter_keys,
+    columns: [
+      {
+        key: :name,
+        label: t('roles.columns.name'),
+        sortable: true,
+        priority: :high,
+        truncate: false
+      },
+      {
+        key: :description,
+        label: t('roles.columns.description'),
+        sortable: false,
+        priority: :normal,
+        truncate: true
+      },
+      {
+        key: :permissions_count,
+        label: t('roles.columns.permissions'),
+        sortable: false,
+        priority: :normal,
+        format: ->(role) { role.permissions.count }
+      },
+      {
+        key: :users_count,
+        label: t('roles.columns.users'),
+        sortable: false,
+        priority: :normal,
+        format: ->(role) { role.users.count }
+      },
+      {
+        key: :created_at,
+        label: t('roles.columns.created_at'),
+        type: :datetime,
+        sortable: true,
+        priority: :low
+      }
+    ],
+    data: @roles,
+    pagy: @pagy,
+    sort_column: params[:sort],
+    sort_direction: params[:direction],
+    current_filters: params.slice(:q, :name_cont, :resource_type_cont, :created_at_gteq, :created_at_lteq, :updated_at_gteq, :updated_at_lteq).to_h,
+    empty_message: t('roles.index.empty_message', default: 'No roles found. Create your first role to get started.'),
+    selectable: true,
+    selected_ids: params[:selected_ids] || [],
+    dom_id: ->(role) { dom_id(role) },
+    record_id: ->(role) { role.hashid },
+    row_actions: [
+      {
+        label: t('common.actions.view'),
+        icon: "eye",
+        url: ->(role) { role_path(id: role.id) },
+        type: :link,
+        data: {
+          turbo_frame: "modal-content",
+          modal_title_param: t('roles.show.title', default: 'Role Details'),
+          modal_size: "lg"
+        }
+      },
+      {
+        label: t('common.actions.edit'),
+        icon: "pencil",
+        url: ->(role) { edit_role_path(id: role.id) },
+        type: :link,
+        data: {
+          turbo_frame: "modal-content",
+          modal_title_param: t('roles.edit.title', default: 'Edit Role'),
+          modal_size: "lg",
+          turbo_prefetch: true
+        }
+      },
+      {
+        label: t('common.actions.delete'),
+        icon: "trash-2",
+        url: ->(role) { role_path(id: role.id) },
+        type: :button,
+        method: :delete,
+        data: { turbo_confirm: t('roles.messages.confirm_delete', default: 'Are you sure you want to delete this role?') }
+      }
+    ],
+    action_buttons: [
+      {
+        label: t('roles.new.title', default: 'New Role'),
+        icon: "plus",
+        url: new_role_path,
+        type: :link,
+        variant: "primary",
+        data: {
+          turbo_frame: "modal-content",
+          modal_title_param: t('roles.new.title', default: 'New Role'),
+          modal_size: "lg"
+        }
+      }
+    ]
+  ) %>
+</div>

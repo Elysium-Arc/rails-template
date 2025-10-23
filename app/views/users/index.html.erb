@@ -39,7 +39,7 @@
     pagy: @pagy,
     sort_column: params[:sort],
     sort_direction: params[:direction],
-    current_filters: params.except(:controller, :action, :sort, :direction, :page, :limit).permit!.to_h,
+    current_filters: params.slice(:q, :email_address_cont, :created_at_gteq, :created_at_lteq, :updated_at_gteq, :updated_at_lteq).to_h,
     empty_message: t('users.index.empty_message', default: 'No users found. Create your first user to get started.'),
     selectable: true,
     selected_ids: params[:selected_ids] || [],

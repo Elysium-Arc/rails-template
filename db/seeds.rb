@@ -2,9 +2,70 @@
 
 puts "Seeding data for #{ENV.fetch("RAILS_ENV", "development")} environment".upcase
 
+# Create default roles and permissions
+puts "Creating default roles and permissions..."
+
+# Create permissions
+permissions = [
+  { name: 'users.index', description: 'View users list' },
+  { name: 'users.show', description: 'View user details' },
+  { name: 'users.create', description: 'Create new users' },
+  { name: 'users.update', description: 'Update existing users' },
+  { name: 'users.destroy', description: 'Delete users' },
+  { name: 'roles.index', description: 'View roles list' },
+  { name: 'roles.show', description: 'View role details' },
+  { name: 'roles.create', description: 'Create new roles' },
+  { name: 'roles.update', description: 'Update existing roles' },
+  { name: 'roles.destroy', description: 'Delete roles' },
+  { name: 'permissions.index', description: 'View permissions list' },
+  { name: 'permissions.show', description: 'View permission details' },
+  { name: 'permissions.create', description: 'Create new permissions' },
+  { name: 'permissions.update', description: 'Update existing permissions' },
+  { name: 'permissions.destroy', description: 'Delete permissions' }
+]
+
+permissions.each do |perm_data|
+  Permission.find_or_create_by!(name: perm_data[:name]) do |permission|
+    permission.description = perm_data[:description]
+  end
+end
+
+puts "Created #{Permission.count} permissions"
+
+# Create roles
+admin_role = Role.find_or_create_by!(name: 'admin') do |role|
+  role.description = 'Administrator role with full access to all features'
+end
+
+user_role = Role.find_or_create_by!(name: 'user') do |role|
+  role.description = 'Standard user role with basic access'
+end
+
+moderator_role = Role.find_or_create_by!(name: 'moderator') do |role|
+  role.description = 'Moderator role with limited administrative access'
+end
+
+puts "Created #{Role.count} roles"
+
+# Assign all permissions to admin role
+admin_role.permissions = Permission.all
+puts "Assigned all permissions to admin role"
+
+# Assign limited permissions to user role
+user_permissions = Permission.where(name: [ 'users.show', 'users.update' ])
+user_role.permissions = user_permissions
+puts "Assigned #{user_permissions.count} permissions to user role"
+
+# Assign moderate permissions to moderator role
+moderator_permissions = Permission.where(name: [ 'users.index', 'users.show', 'users.create', 'users.update' ])
+moderator_role.permissions = moderator_permissions
+puts "Assigned #{moderator_permissions.count} permissions to moderator role"
+
 # Create admin user from environment variables
 if User.count.zero? && ENV["ADMIN_EMAIL_ADDRESS"].present? && ENV["ADMIN_PASSWORD"].present?
-  Seeding::UserService.create_user(ENV.fetch("ADMIN_EMAIL_ADDRESS"), ENV.fetch("ADMIN_PASSWORD"))
+  admin_user = Seeding::UserService.create_user(ENV.fetch("ADMIN_EMAIL_ADDRESS"), ENV.fetch("ADMIN_PASSWORD"))
+  admin_user.roles << admin_role unless admin_user.roles.include?(admin_role)
+  puts "Created admin user with admin role"
 end
 
 # Seed test data for development environment

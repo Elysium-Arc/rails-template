@@ -10,10 +10,21 @@ class SidebarComponent < BaseComponent
   end
 
   def links
-    [
+    base_links = [
       { name: I18n.t("sidebar.links.dashboard"), path: root_path, icon: "home", controllers: [ "dashboard" ] },
       { name: I18n.t("sidebar.links.users"), path: users_path, icon: "users", controllers: [ "users" ]  }
     ]
+
+    # Add RBAC links if user has permission
+    if @current_user&.has_any_role?("admin") || @current_user&.has_permission?("roles.index")
+      base_links << { name: I18n.t("sidebar.links.roles"), path: roles_path, icon: "shield", controllers: [ "roles" ] }
+    end
+
+    if @current_user&.has_any_role?("admin") || @current_user&.has_permission?("permissions.index")
+      base_links << { name: I18n.t("sidebar.links.permissions"), path: permissions_path, icon: "key", controllers: [ "permissions" ] }
+    end
+
+    base_links
   end
 
   def active_link?(link)

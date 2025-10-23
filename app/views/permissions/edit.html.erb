@@ -1,0 +1,24 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <%= render FormComponent.new(
+    model: @permission,
+    url: permission_path(@permission),
+    method: :patch,
+    fields: [
+      {
+        name: :name,
+        as: :text,
+        required: true,
+        autofocus: true,
+        maxlength: 255,
+        hint: t('permissions.form.hints.name', default: 'Unique permission name (e.g., users.create)')
+      },
+      {
+        name: :description,
+        as: :textarea,
+        required: true,
+        maxlength: 500,
+        hint: t('permissions.form.hints.description', default: 'Brief description of what this permission allows')
+      }
+    ]
+  ) %>
+<% end %>

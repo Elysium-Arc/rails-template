@@ -6,6 +6,7 @@ A modern Rails 8 application template with authentication, multi-language suppor
 
 ### Core Features
 - **Authentication System**: Session-based authentication with secure password management
+- **Role-Based Access Control (RBAC)**: Comprehensive role and permission management system
 - **Multi-language Support**: English, French, and Arabic with locale routing
 - **Component Architecture**: ViewComponent-based UI with reusable components
 - **Hotwire Integration**: Turbo + Stimulus for dynamic interactions
@@ -89,11 +90,107 @@ After generating your application:
 ## 🎯 Application Structure
 
 ### Authentication & Authorization
-- **Models**: `User`, `Session`, `Current` (request-scoped user)
-- **Controllers**: `SessionsController`, `PasswordsController`
+- **Models**: `User`, `Session`, `Current` (request-scoped user), `Role`, `Permission`
+- **Controllers**: `SessionsController`, `PasswordsController`, `RolesController`, `PermissionsController`
 - **Concerns**: `Authentication` for protected controllers
-- **Policies**: Pundit policies for authorization
-- **Features**: Password reset, session management, secure authentication
+- **Policies**: Pundit policies for authorization (UserPolicy, RolePolicy, PermissionPolicy)
+- **Features**: Password reset, session management, role-based access control
+
+### Role-Based Access Control (RBAC)
+The template includes a complete RBAC system for managing user permissions:
+
+#### Models
+- **Role**: Represents a role that can be assigned to users (e.g., admin, moderator, user)
+- **Permission**: Represents a specific permission (e.g., users.create, users.update)
+- **UserRole**: Join model linking users to roles
+- **RolePermission**: Join model linking roles to permissions
+
+#### Default Roles
+The seed data creates three default roles:
+- **Admin**: Full access to all features
+- **Moderator**: Limited administrative access (can view and manage users)
+- **User**: Basic access (can view and update their own profile)
+
+#### Default Permissions
+Permissions follow a resource.action naming convention:
+- `users.index`, `users.show`, `users.create`, `users.update`, `users.destroy`
+- `roles.index`, `roles.show`, `roles.create`, `roles.update`, `roles.destroy`
+- `permissions.index`, `permissions.show`, `permissions.create`, `permissions.update`, `permissions.destroy`
+
+#### Usage in Code
+
+**Check if user has a role:**
+```ruby
+current_user.has_role?('admin')
+current_user.has_any_role?('admin', 'moderator')
+```
+
+**Check if user has a permission:**
+```ruby
+current_user.has_permission?('users.create')
+```
+
+**In policies:**
+```ruby
+class UserPolicy < ApplicationPolicy
+  def create?
+    user.has_permission?('users.create') || user.has_role?('admin')
+  end
+end
+```
+
+**In controllers:**
+```ruby
+class UsersController < ApplicationController
+  def index
+    authorize User  # Uses Pundit to check permissions
+    @users = policy_scope(User)  # Scopes records based on permissions
+  end
+end
+```
+
+**In views:**
+```erb
+<% if current_user.has_role?('admin') %>
+  <%= link_to 'Manage Roles', roles_path %>
+<% end %>
+```
+
+#### Managing Roles and Permissions
+
+**Create a new role:**
+```ruby
+role = Role.create!(
+  name: 'editor',
+  description: 'Content editor with publishing rights'
+)
+```
+
+**Assign permissions to a role:**
+```ruby
+permission = Permission.find_by(name: 'users.update')
+role.add_permission(permission)
+# or
+role.permissions << permission
+```
+
+**Assign a role to a user:**
+```ruby
+user.add_role(role)
+# or
+user.roles << role
+```
+
+**Resource-specific roles:**
+```ruby
+# Create a role scoped to a specific resource
+project_role = Role.create!(
+  name: 'project_admin',
+  description: 'Admin for specific project',
+  resource_type: 'Project',
+  resource_id: 1
+)
+```
 
 ### Component Architecture
 All UI components inherit from `BaseComponent` (`app/components/base_component.rb`):

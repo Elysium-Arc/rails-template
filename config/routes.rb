@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
     resources :passwords, param: :token
     resources :users
+    resources :roles
+    resources :permissions
 
     # Defines the root path route ("/")
     root "dashboard#index"

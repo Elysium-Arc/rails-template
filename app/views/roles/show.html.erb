@@ -1,0 +1,48 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <div class="space-y-6">
+    <div>
+      <h3 class="text-lg font-medium"><%= t('roles.show.name') %></h3>
+      <p class="mt-1 text-sm text-gray-600"><%= @role.name %></p>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-medium"><%= t('roles.show.description') %></h3>
+      <p class="mt-1 text-sm text-gray-600"><%= @role.description || t('common.none') %></p>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-medium"><%= t('roles.show.permissions') %></h3>
+      <% if @role.permissions.any? %>
+        <ul class="mt-2 space-y-1">
+          <% @role.permissions.order(:name).each do |permission| %>
+            <li class="text-sm text-gray-600">
+              <span class="font-medium"><%= permission.name %></span> - <%= permission.description %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="mt-1 text-sm text-gray-600"><%= t('roles.show.no_permissions', default: 'No permissions assigned') %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-medium"><%= t('roles.show.users') %></h3>
+      <p class="mt-1 text-sm text-gray-600">
+        <%= t('roles.show.users_count', count: @role.users.count, default: "%{count} users") %>
+      </p>
+    </div>
+
+    <div class="border-t pt-4">
+      <dl class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <dt class="font-medium text-gray-500"><%= t('roles.show.created_at') %></dt>
+          <dd class="mt-1"><%= l(@role.created_at, format: :long) %></dd>
+        </div>
+        <div>
+          <dt class="font-medium text-gray-500"><%= t('roles.show.updated_at') %></dt>
+          <dd class="mt-1"><%= l(@role.updated_at, format: :long) %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+<% end %>

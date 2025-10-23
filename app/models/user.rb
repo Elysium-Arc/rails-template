@@ -4,6 +4,8 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
+  has_many :user_roles, dependent: :destroy
+  has_many :roles, through: :user_roles
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
@@ -60,5 +62,30 @@ class User < ApplicationRecord
 
   def to_key
     [ hashid ]
+  end
+
+  # Role and permission methods
+  def has_role?(role_name)
+    roles.exists?(name: role_name)
+  end
+
+  def has_any_role?(*role_names)
+    roles.where(name: role_names).exists?
+  end
+
+  def has_permission?(permission_name)
+    roles.joins(:permissions).where(permissions: { name: permission_name }).exists?
+  end
+
+  def add_role(role)
+    roles << role unless has_role?(role.name)
+  end
+
+  def remove_role(role)
+    roles.delete(role)
+  end
+
+  def permission_names
+    roles.joins(:permissions).pluck("permissions.name").uniq
   end
 end
