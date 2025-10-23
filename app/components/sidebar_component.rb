@@ -16,11 +16,11 @@ class SidebarComponent < BaseComponent
     ]
 
     # Add RBAC links if user has permission
-    if @current_user&.has_any_role?('admin') || @current_user&.has_permission?('roles.index')
+    if @current_user&.has_any_role?("admin") || @current_user&.has_permission?("roles.index")
       base_links << { name: I18n.t("sidebar.links.roles"), path: roles_path, icon: "shield", controllers: [ "roles" ] }
     end
 
-    if @current_user&.has_any_role?('admin') || @current_user&.has_permission?('permissions.index')
+    if @current_user&.has_any_role?("admin") || @current_user&.has_permission?("permissions.index")
       base_links << { name: I18n.t("sidebar.links.permissions"), path: permissions_path, icon: "key", controllers: [ "permissions" ] }
     end
 

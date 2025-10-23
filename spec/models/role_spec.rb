@@ -15,7 +15,7 @@ RSpec.describe Role, type: :model do
 
     it { should validate_presence_of(:name) }
     it { should validate_length_of(:description).is_at_most(500) }
-    
+
     context 'uniqueness' do
       it 'validates uniqueness of name scoped to resource_type and resource_id' do
         create(:role, name: 'admin', resource_type: nil, resource_id: nil)
@@ -132,7 +132,7 @@ RSpec.describe Role, type: :model do
     let(:role) { create(:role) }
 
     it 'returns array with hashid' do
-      expect(role.to_key).to eq([role.hashid])
+      expect(role.to_key).to eq([ role.hashid ])
     end
   end
 

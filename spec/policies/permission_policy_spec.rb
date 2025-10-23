@@ -6,7 +6,7 @@ RSpec.describe PermissionPolicy, type: :policy do
   subject { described_class }
 
   let(:admin_role) { create(:role, :admin) }
-  let(:admin_user) { create(:user, roles: [admin_role]) }
+  let(:admin_user) { create(:user, roles: [ admin_role ]) }
   let(:regular_user) { create(:user) }
   let(:permission) { create(:permission) }
 

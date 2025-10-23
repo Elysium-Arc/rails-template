@@ -10,7 +10,7 @@ class Permission < ApplicationRecord
 
   # Validations
   validates :name, presence: true,
-                   uniqueness: { scope: [:resource_type, :resource_id], case_sensitive: false }
+                   uniqueness: { scope: [ :resource_type, :resource_id ], case_sensitive: false }
   validates :description, presence: true, length: { maximum: 500 }
 
   # Scopes
@@ -36,6 +36,6 @@ class Permission < ApplicationRecord
   end
 
   def to_key
-    [hashid]
+    [ hashid ]
   end
 end

@@ -86,7 +86,7 @@ RSpec.describe Permission, type: :model do
     let(:permission) { create(:permission) }
 
     it 'returns array with hashid' do
-      expect(permission.to_key).to eq([permission.hashid])
+      expect(permission.to_key).to eq([ permission.hashid ])
     end
   end
 

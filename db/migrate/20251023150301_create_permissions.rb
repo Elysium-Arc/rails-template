@@ -11,7 +11,7 @@ class CreatePermissions < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :permissions, [:name, :resource_type, :resource_id], unique: true, name: 'index_permissions_on_name_and_resource'
-    add_index :permissions, [:resource_type, :resource_id]
+    add_index :permissions, [ :name, :resource_type, :resource_id ], unique: true, name: 'index_permissions_on_name_and_resource'
+    add_index :permissions, [ :resource_type, :resource_id ]
   end
 end

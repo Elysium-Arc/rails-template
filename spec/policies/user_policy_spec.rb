@@ -6,7 +6,7 @@ RSpec.describe UserPolicy, type: :policy do
   subject { described_class }
 
   let(:admin_role) { create(:role, :admin) }
-  let(:admin_user) { create(:user, roles: [admin_role]) }
+  let(:admin_user) { create(:user, roles: [ admin_role ]) }
   let(:regular_user) { create(:user) }
   let(:other_user) { create(:user) }
 
@@ -57,7 +57,7 @@ RSpec.describe UserPolicy, type: :policy do
       let(:user) { admin_user }
 
       it 'returns all users' do
-        expect(subject).to match_array([admin_user, regular_user, other_user])
+        expect(subject).to match_array([ admin_user, regular_user, other_user ])
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe UserPolicy, type: :policy do
       let(:user) { regular_user }
 
       it 'returns only their own record' do
-        expect(subject).to eq([regular_user])
+        expect(subject).to eq([ regular_user ])
       end
     end
   end

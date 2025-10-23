@@ -52,12 +52,12 @@ admin_role.permissions = Permission.all
 puts "Assigned all permissions to admin role"
 
 # Assign limited permissions to user role
-user_permissions = Permission.where(name: ['users.show', 'users.update'])
+user_permissions = Permission.where(name: [ 'users.show', 'users.update' ])
 user_role.permissions = user_permissions
 puts "Assigned #{user_permissions.count} permissions to user role"
 
 # Assign moderate permissions to moderator role
-moderator_permissions = Permission.where(name: ['users.index', 'users.show', 'users.create', 'users.update'])
+moderator_permissions = Permission.where(name: [ 'users.index', 'users.show', 'users.create', 'users.update' ])
 moderator_role.permissions = moderator_permissions
 puts "Assigned #{moderator_permissions.count} permissions to moderator role"
 

@@ -12,7 +12,7 @@ class Role < ApplicationRecord
 
   # Validations
   validates :name, presence: true,
-                   uniqueness: { scope: [:resource_type, :resource_id], case_sensitive: false }
+                   uniqueness: { scope: [ :resource_type, :resource_id ], case_sensitive: false }
   validates :description, length: { maximum: 500 }
 
   # Scopes
@@ -53,6 +53,6 @@ class Role < ApplicationRecord
   end
 
   def to_key
-    [hashid]
+    [ hashid ]
   end
 end
