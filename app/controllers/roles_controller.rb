@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
-class UsersController < ApplicationController
+class RolesController < ApplicationController
   include FilterableIndex
 
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_role, only: %i[show edit update destroy]
   before_action :persist_filters, only: :index
 
   def index
-    authorize User
-    @users = filterable_index(
-      User,
-      base_scope: policy_scope(User).includes(:sessions),
+    authorize Role
+    @roles = filterable_index(
+      Role,
+      base_scope: policy_scope(Role).includes(:permissions, :users),
       custom_filters: [
-        { attribute: :email_address, type: :email },
+        { attribute: :name, type: :string },
+        { attribute: :resource_type, type: :string },
         { attribute: :created_at, type: :datetime_range },
         { attribute: :updated_at, type: :datetime_range }
       ]
@@ -20,47 +21,47 @@ class UsersController < ApplicationController
   end
 
   def show
-    authorize @user
+    authorize @role
     render layout: false
   end
 
   def new
-    @user = User.new
-    authorize @user
+    @role = Role.new
+    authorize @role
     render layout: false
   end
 
   def edit
-    authorize @user
+    authorize @role
     render layout: false
   end
 
   def create
-    @user = User.new(user_params)
-    authorize @user
+    @role = Role.new(role_params)
+    authorize @role
 
-    if @user.save
+    if @role.save
       respond_to do |format|
         format.turbo_stream do
           reload_table_data
 
           render turbo_stream: [
             turbo_stream.replace(
-              "users-table",
-              partial: "users/table",
+              "roles-table",
+              partial: "roles/table",
               locals: {
-                users: @users,
+                roles: @roles,
                 pagy: @pagy,
                 filters: @filters,
                 active_filter_keys: @active_filter_keys,
                 custom_params: current_filters
               }
             ),
-            turbo_flash(:notice, "users.messages.created"),
+            turbo_flash(:notice, "roles.messages.created"),
             close_modal
           ]
         end
-        format.html { redirect_to users_path, notice: "users.messages.created" }
+        format.html { redirect_to roles_path, notice: t("roles.messages.created") }
       end
     else
       render :new, status: :unprocessable_entity, layout: false
@@ -68,22 +69,19 @@ class UsersController < ApplicationController
   end
 
   def update
-    authorize @user
-    # Don't require password if not provided
-    update_params = user_params
-    update_params = update_params.except(:password, :password_confirmation) if update_params[:password].blank?
+    authorize @role
 
-    if @user.update(update_params)
+    if @role.update(role_params)
       respond_to do |format|
         format.turbo_stream do
           reload_table_data
 
           render turbo_stream: [
             turbo_stream.replace(
-              "users-table",
-              partial: "users/table",
+              "roles-table",
+              partial: "roles/table",
               locals: {
-                users: @users,
+                roles: @roles,
                 pagy: @pagy,
                 filters: @filters,
                 active_filter_keys: @active_filter_keys,
@@ -91,10 +89,10 @@ class UsersController < ApplicationController
               }
             ),
             close_modal,
-            turbo_flash(:success, "users.messages.updated", default: "User updated successfully")
+            turbo_flash(:success, "roles.messages.updated")
           ]
         end
-        format.html { redirect_to users_path, notice: t("users.messages.updated", default: "User updated successfully") }
+        format.html { redirect_to roles_path, notice: t("roles.messages.updated") }
       end
     else
       render :edit, status: :unprocessable_entity, layout: false
@@ -102,18 +100,18 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    authorize @user
-    @user.destroy
+    authorize @role
+    @role.destroy
     respond_to do |format|
       format.turbo_stream do
         reload_table_data
 
         render turbo_stream: [
           turbo_stream.replace(
-            "users-table",
-            partial: "users/table",
+            "roles-table",
+            partial: "roles/table",
             locals: {
-              users: @users,
+              roles: @roles,
               pagy: @pagy,
               filters: @filters,
               active_filter_keys: @active_filter_keys,
@@ -121,30 +119,31 @@ class UsersController < ApplicationController
             }
           ),
           close_modal,
-          turbo_flash(:success, "users.messages.deleted", default: "User deleted successfully")
+          turbo_flash(:success, "roles.messages.deleted")
         ]
       end
-      format.html { redirect_to users_path, notice: t("users.messages.deleted", default: "User deleted successfully") }
+      format.html { redirect_to roles_path, notice: t("roles.messages.deleted") }
     end
   end
 
   private
 
-  def set_user
-    @user = User.find(params[:id])
+  def set_role
+    @role = Role.find(params[:id])
   end
 
-  def user_params
-    params.require(:user).permit(:email_address, :password, :password_confirmation)
+  def role_params
+    params.require(:role).permit(:name, :description, :resource_type, :resource_id, permission_ids: [])
   end
 
   # Reload table data with preserved filters, sorting, and pagination
   def reload_table_data
-    @users = filterable_index(
-      User,
-      base_scope: policy_scope(User).includes(:sessions),
+    @roles = filterable_index(
+      Role,
+      base_scope: policy_scope(Role).includes(:permissions, :users),
       custom_filters: [
-        { attribute: :email_address, type: :email },
+        { attribute: :name, type: :string },
+        { attribute: :resource_type, type: :string },
         { attribute: :created_at, type: :datetime_range },
         { attribute: :updated_at, type: :datetime_range }
       ],
