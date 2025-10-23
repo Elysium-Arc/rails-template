@@ -8,7 +8,7 @@ FactoryBot.define do
 
     trait :admin do
       email_address { "admin@example.com" }
-      
+
       after(:create) do |user|
         admin_role = Role.find_or_create_by!(name: "admin") do |role|
           role.description = "Administrator role with full access"
@@ -36,7 +36,7 @@ FactoryBot.define do
       end
 
       after(:create) do |user, evaluator|
-        create_list(:role, evaluator.roles_count, users: [user])
+        create_list(:role, evaluator.roles_count, users: [ user ])
       end
     end
 

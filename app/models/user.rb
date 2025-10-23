@@ -86,6 +86,6 @@ class User < ApplicationRecord
   end
 
   def permission_names
-    roles.joins(:permissions).pluck('permissions.name').uniq
+    roles.joins(:permissions).pluck("permissions.name").uniq
   end
 end

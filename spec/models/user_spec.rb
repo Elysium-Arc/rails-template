@@ -181,57 +181,57 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'role and permission methods' do
+  describe "role and permission methods" do
     let(:user) { create(:user) }
-    let(:admin_role) { create(:role, name: 'admin') }
-    let(:user_role) { create(:role, name: 'user') }
-    let(:permission) { create(:permission, name: 'users.index') }
+    let(:admin_role) { create(:role, name: "admin") }
+    let(:user_role) { create(:role, name: "user") }
+    let(:permission) { create(:permission, name: "users.index") }
 
-    describe '#has_role?' do
-      it 'returns true when user has the role' do
+    describe "#has_role?" do
+      it "returns true when user has the role" do
         user.roles << admin_role
-        expect(user.has_role?('admin')).to be true
+        expect(user.has_role?("admin")).to be true
       end
 
-      it 'returns false when user does not have the role' do
-        expect(user.has_role?('admin')).to be false
+      it "returns false when user does not have the role" do
+        expect(user.has_role?("admin")).to be false
       end
     end
 
-    describe '#has_any_role?' do
-      it 'returns true when user has any of the roles' do
+    describe "#has_any_role?" do
+      it "returns true when user has any of the roles" do
         user.roles << user_role
-        expect(user.has_any_role?('admin', 'user')).to be true
+        expect(user.has_any_role?("admin", "user")).to be true
       end
 
-      it 'returns false when user has none of the roles' do
-        expect(user.has_any_role?('admin', 'moderator')).to be false
+      it "returns false when user has none of the roles" do
+        expect(user.has_any_role?("admin", "moderator")).to be false
       end
     end
 
-    describe '#has_permission?' do
+    describe "#has_permission?" do
       before do
         admin_role.permissions << permission
         user.roles << admin_role
       end
 
-      it 'returns true when user has the permission through role' do
-        expect(user.has_permission?('users.index')).to be true
+      it "returns true when user has the permission through role" do
+        expect(user.has_permission?("users.index")).to be true
       end
 
-      it 'returns false when user does not have the permission' do
-        expect(user.has_permission?('users.destroy')).to be false
+      it "returns false when user does not have the permission" do
+        expect(user.has_permission?("users.destroy")).to be false
       end
     end
 
-    describe '#add_role' do
-      it 'adds role to user' do
+    describe "#add_role" do
+      it "adds role to user" do
         expect {
           user.add_role(admin_role)
         }.to change { user.roles.count }.by(1)
       end
 
-      it 'does not add duplicate role' do
+      it "does not add duplicate role" do
         user.roles << admin_role
         expect {
           user.add_role(admin_role)
@@ -239,31 +239,31 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe '#remove_role' do
+    describe "#remove_role" do
       before { user.roles << admin_role }
 
-      it 'removes role from user' do
+      it "removes role from user" do
         expect {
           user.remove_role(admin_role)
         }.to change { user.roles.count }.by(-1)
       end
     end
 
-    describe '#permission_names' do
+    describe "#permission_names" do
       before do
-        permission2 = create(:permission, name: 'users.create')
-        admin_role.permissions << [permission, permission2]
+        permission2 = create(:permission, name: "users.create")
+        admin_role.permissions << [ permission, permission2 ]
         user.roles << admin_role
       end
 
-      it 'returns array of permission names' do
-        expect(user.permission_names).to match_array(['users.index', 'users.create'])
+      it "returns array of permission names" do
+        expect(user.permission_names).to match_array([ "users.index", "users.create" ])
       end
 
-      it 'returns unique permission names' do
+      it "returns unique permission names" do
         user_role.permissions << permission
         user.roles << user_role
-        expect(user.permission_names.count('users.index')).to eq(1)
+        expect(user.permission_names.count("users.index")).to eq(1)
       end
     end
   end

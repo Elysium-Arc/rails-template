@@ -28,7 +28,7 @@ FactoryBot.define do
       end
 
       after(:create) do |role, evaluator|
-        create_list(:permission, evaluator.permissions_count, roles: [role])
+        create_list(:permission, evaluator.permissions_count, roles: [ role ])
       end
     end
 
@@ -38,7 +38,7 @@ FactoryBot.define do
       end
 
       after(:create) do |role, evaluator|
-        create_list(:user, evaluator.users_count, roles: [role])
+        create_list(:user, evaluator.users_count, roles: [ role ])
       end
     end
   end
