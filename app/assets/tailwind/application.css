@@ -2,6 +2,916 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add your custom CSS here - the original complex layers have been simplified */
-/* You can add them back incrementally as needed */
-/* See git history (dd6a4d4) for the full custom CSS if you need to restore specific styles */
+/* ========================================
+   CSS Cascade Layers for Z-Index Management
+   ======================================== */
+/* Define layer order: earlier = lower in stack, later = higher in stack */
+@layer base, layout, components, interactive, overlays, notifications;
+
+/* ========================================
+   DaisyUI Theme Configuration
+   ======================================== */
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: oklch(98% 0.005 250); /* soft neutral white */
+    --color-base-200: oklch(95% 0.01 250);  /* subtle contrast for panels */
+    --color-base-300: oklch(90% 0.015 250); /* slightly deeper for borders */
+    --color-base-content: oklch(35% 0.03 250); /* soft graphite text */
+    --color-primary: oklch(65% 0.16 280); /* cool violet-blue like Apple tint */
+    --color-primary-content: oklch(95% 0.02 280);
+    --color-secondary: oklch(60% 0.12 330); /* slight magenta touch */
+    --color-secondary-content: oklch(95% 0.02 330);
+    --color-accent: oklch(80% 0.15 270); /* subtle blue accent */
+    --color-accent-content: oklch(20% 0.02 270);
+    --color-neutral: oklch(30% 0.03 260); /* neutral graphite */
+    --color-neutral-content: oklch(92% 0.01 260);
+    --color-info: oklch(75% 0.1 220);
+    --color-info-content: oklch(18% 0.02 220);
+    --color-success: oklch(75% 0.12 160);
+    --color-success-content: oklch(18% 0.02 160);
+    --color-warning: oklch(85% 0.1 80);
+    --color-warning-content: oklch(25% 0.02 80);
+    --color-error: oklch(70% 0.12 25);
+    --color-error-content: oklch(18% 0.03 25);
+    --radius-selector: 1rem;
+    --radius-field: 0.5rem;
+    --radius-box: 1rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+    name: "dark";
+    default: false;
+    prefersdark: true;
+    color-scheme: "dark";
+    --color-base-100: oklch(18% 0.015 260); /* soft matte dark base */
+    --color-base-200: oklch(24% 0.02 260);  /* card base */
+    --color-base-300: oklch(30% 0.025 260); /* panel elevation */
+    --color-base-content: oklch(95% 0.01 260); /* light graphite text */
+    --color-primary: oklch(70% 0.18 330); /* cyberpunk pink-violet glow */
+    --color-primary-content: oklch(15% 0.03 330);
+    --color-secondary: oklch(65% 0.16 280); /* neon blue-violet */
+    --color-secondary-content: oklch(15% 0.03 280);
+    --color-accent: oklch(75% 0.2 310); /* electric magenta accent */
+    --color-accent-content: oklch(18% 0.04 310);
+    --color-neutral: oklch(25% 0.02 260);
+    --color-neutral-content: oklch(88% 0.01 260);
+    --color-info: oklch(80% 0.12 220);
+    --color-info-content: oklch(15% 0.02 220);
+    --color-success: oklch(78% 0.15 150);
+    --color-success-content: oklch(15% 0.03 150);
+    --color-warning: oklch(85% 0.16 85);
+    --color-warning-content: oklch(20% 0.04 85);
+    --color-error: oklch(70% 0.18 25);
+    --color-error-content: oklch(14% 0.04 25);
+    --radius-selector: 1rem;
+    --radius-field: 0.5rem;
+    --radius-box: 1rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 0;
+    --noise: 0;
+}
+
+/* ========================================
+   Layer-Organized Styles
+   ======================================== */
+
+@layer base {
+    /* Logo styles */
+    .logo {
+    }
+
+    [data-theme="dark"] .logo {
+      filter: invert(1);
+    }
+
+    /* Base brand gradient utilities */
+    .text-brand-gradient {
+    }
+
+    .turbo-progress-bar {
+    }
+
+    /* Accessibility: Screen reader only class */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+@layer layout {
+    /* ========================================
+       Sidebar Layout
+       ======================================== */
+    .sidebar {
+        transition: width 0.3s ease, transform 0.3s ease;
+        /* Create new stacking context */
+        isolation: isolate;
+    }
+
+    [dir="rtl"] .sidebar {
+    }
+
+    .sidebar-collapsed {
+    }
+
+    .sidebar-collapsed .sidebar-brand {
+    }
+
+    .sidebar-link-text {
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar-collapsed .sidebar-brand-text {
+    }
+
+    .sidebar-collapsed .sidebar-link-text {
+    }
+
+    .sidebar-brand {
+    }
+
+    .sidebar-brand-text {
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar-logo {
+    }
+
+    .sidebar-link,
+    .sidebar-button {
+    }
+
+    .sidebar-link-active {
+        background-color: var(--color-primary);
+        color: var(--color-primary-content);
+    }
+
+    .sidebar-collapsed .sidebar-link,
+    .sidebar-collapsed .sidebar-button {
+    }
+
+    .collapse-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .collapse-icon-collapsed {
+        transform: rotate(0deg);
+    }
+
+    .collapse-icon-expanded {
+        transform: rotate(180deg);
+    }
+
+    .topbar-toggle-button {
+    }
+
+    @media (max-width: 900px) {
+        .sidebar {
+            /* Sidebar on mobile should be above content */
+            z-index: 40;
+        }
+
+        .sidebar-collapsed {
+            transform: translateX(-100%);
+        }
+
+        [dir="rtl"] .sidebar-collapsed {
+            transform: translateX(100%);
+        }
+    }
+
+    /* ========================================
+       Topbar Layout
+       ======================================== */
+    .topbar {
+        /* Topbar should be above normal content but below overlays */
+        z-index: 30;
+        /* Create new stacking context */
+        isolation: isolate;
+    }
+
+    .topbar-button {
+    }
+
+    .topbar-end {
+        margin-inline-start: auto;
+    }
+}
+
+@layer components {
+    /* ========================================
+       Card & Content Components
+       ======================================== */
+    .card-container {
+    }
+    
+    /* ========================================
+       Form Input Improvements
+       ======================================== */
+    /* Remove DaisyUI's stiff focus animation on inputs */
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+        transform: none !important;
+        animation: none !important;
+    }
+    
+    /* Smooth focus ring transition */
+    .input,
+    .select,
+    .textarea {
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    /* Accent color focus states */
+    .focus\:input-accent:focus {
+        border-color: oklch(var(--color-accent));
+        box-shadow: 0 0 0 2px oklch(var(--color-accent) / 0.2);
+    }
+    
+    .focus\:select-accent:focus {
+        border-color: oklch(var(--color-accent));
+        box-shadow: 0 0 0 2px oklch(var(--color-accent) / 0.2);
+    }
+    
+    .focus\:outline-accent:focus {
+        outline: 2px solid oklch(var(--color-accent) / 0.3);
+        outline-offset: 2px;
+    }
+
+    /* ========================================
+       Form Component Styles
+       ======================================== */
+    
+    /* Form labels */
+    .form-label {
+    }
+    
+    /* Form hints */
+    .form-hint {
+    }
+    
+    /* Form errors */
+    .form-error {
+    }
+    
+    /* Form inputs with consistent styling */
+    .form-input {
+    }
+    
+    .form-select {
+    }
+    
+    .form-textarea {
+    }
+    
+    /* Checkbox with accent color */
+    .form-checkbox {
+    }
+    
+    .form-checkbox-label {
+    }
+    
+    /* Radio buttons with accent color */
+    .form-radio {
+    }
+    
+    .form-radio-label {
+    }
+    
+    /* File input */
+    .form-file {
+    }
+
+    /* ========================================
+       Button Variants
+       ======================================== */
+    
+    /* Primary action buttons with white text */
+    .btn-primary {
+    }
+    
+    .btn-accent {
+    }
+    
+    .btn-secondary {
+    }
+    
+    /* Semantic button classes */
+    .btn-add {
+    }
+    
+    .btn-edit {
+    }
+    
+    .btn-update {
+    }
+    
+    .btn-create {
+    }
+    
+    .btn-save {
+    }
+    
+    .btn-delete {
+    }
+    
+    .btn-remove {
+    }
+    
+    .btn-cancel {
+    }
+    
+    .btn-back {
+    }
+    
+    .btn-view {
+    }
+    
+    .btn-submit {
+    }
+    
+    .btn-search {
+    }
+    
+    .btn-filter {
+    }
+    
+    .btn-export {
+    }
+    
+    .btn-import {
+    }
+    
+    .btn-sync {
+    }
+    
+    .btn-refresh {
+    }
+
+    /* .poem {
+    } */
+
+    /* ========================================
+       Table Components
+       ======================================== */
+    .table-container {
+        /* Note: No isolation needed - layer system handles stacking */
+        /* Tables are in 'components' layer, dropdowns in 'interactive' layer */
+        /* This allows filter dropdowns to appear above tables correctly */
+    }
+
+    .table-container table {
+    }
+
+    /* Compact table on mobile */
+    @media (max-width: 640px) {
+        .table-container table {
+            font-size: 0.8125rem; /* 13px */
+        }
+        
+        .table-container .checkbox {
+            width: 1rem;
+            height: 1rem;
+        }
+        
+        .table-container .btn-sm {
+            min-height: 1.75rem;
+            height: 1.75rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+    }
+
+    /* Text truncation utilities for table cells */
+    .table-container .truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .table-container .max-w-xs {
+        max-width: 20rem;
+    }
+
+    @media (max-width: 640px) {
+        .table-container .max-w-xs {
+            max-width: 8rem;
+        }
+    }
+
+    @media (min-width: 641px) and (max-width: 768px) {
+        .table-container .max-w-xs {
+            max-width: 12rem;
+        }
+    }
+
+    /* Loading states for table and filter */
+    .table-loading,
+    .filter-loading {
+    }
+
+    .table-loading::after,
+    .filter-loading::after {
+        content: "";
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%236b7280' stroke-width='4'%3E%3C/circle%3E%3CanimateTransform attributeName='transform' attributeType='XML' type='rotate' from='0 12 12' to='360 12 12' dur='1s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 2rem;
+    }
+
+    /* ========================================
+       Filter Components
+       ======================================== */
+    .filter-container {
+    }
+
+    .filter-container .input,
+    .filter-container .select {
+    }
+
+    .filter-container .input:focus,
+    .filter-container .select:focus {
+    }
+
+    /* Responsive filter layout */
+    @media (max-width: 640px) {
+        .filter-container .flex-wrap {
+        }
+
+        .filter-container .min-w-0 {
+        }
+
+        .filter-container .flex.items-center.gap-2 {
+        }
+    }
+
+    /* ========================================
+       Pagination Components
+       ======================================== */
+    .pagy-component {
+        position: relative;
+    }
+
+    /* Smooth hover effects for pagination buttons */
+    .pagy-component .btn-ghost:hover {
+        transform: translateY(-1px);
+    }
+
+    .pagy-component .btn-primary {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pagy-component .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.3s ease;
+    }
+
+    .pagy-component .btn-primary:hover::before {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Page number active indicator */
+    .pagy-component .btn-primary {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Compact mobile pagination */
+    @media (max-width: 640px) {
+        .pagy-component .btn {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+    }
+
+    /* RTL support for pagination */
+    [dir="rtl"] .pagy-component .btn-ghost:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Smooth transitions for all pagination elements */
+    .pagy-component .btn,
+    .pagy-component .select {
+        transition: all 0.2s ease;
+    }
+
+    .pagy-component .btn:active {
+        transform: scale(0.95);
+    }
+
+    /* Disabled state styling */
+    .pagy-component .btn-disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+    }
+
+    .pagy-component .btn-disabled:hover {
+        transform: none;
+    }
+
+    /* ========================================
+       Status Badge Components
+       ======================================== */
+    .badge-status {
+    }
+
+    /* Success variants */
+    .badge-status-success {
+    }
+
+    .badge-status-success:hover {
+    }
+
+    /* Error variants */
+    .badge-status-error {
+    }
+
+    .badge-status-error:hover {
+    }
+
+    /* Warning variants */
+    .badge-status-warning {
+    }
+
+    .badge-status-warning:hover {
+    }
+
+    /* Info variants */
+    .badge-status-info {
+    }
+
+    .badge-status-info:hover {
+    }
+
+    /* Primary variants */
+    .badge-status-primary {
+    }
+
+    .badge-status-primary:hover {
+    }
+
+    /* Secondary variants */
+    .badge-status-secondary {
+    }
+
+    .badge-status-secondary:hover {
+    }
+
+    /* Accent variants */
+    .badge-status-accent {
+    }
+
+    .badge-status-accent:hover {
+    }
+
+    /* Neutral variants */
+    .badge-status-neutral {
+    }
+
+    .badge-status-neutral:hover {
+    }
+
+    /* Ghost variants */
+    .badge-status-ghost {
+    }
+
+    .badge-status-ghost:hover {
+    }
+
+    /* Solid variants */
+    .badge-status-success-solid {
+    }
+
+    .badge-status-error-solid {
+    }
+
+    .badge-status-warning-solid {
+    }
+
+    .badge-status-info-solid {
+    }
+
+    .badge-status-primary-solid {
+    }
+
+    /* Size variants */
+    .badge-status-sm {
+    }
+
+    .badge-status-lg {
+    }
+
+    /* With dot indicator */
+    .badge-status-with-dot::before {
+      content: '';
+    }
+
+    /* Pulsing animation for live states */
+    .badge-status-pulse::before {
+      content: '';
+    }
+
+    /* Responsive sizing */
+    @media (max-width: 640px) {
+      .badge-status,
+      .badge-status-success,
+      .badge-status-error,
+      .badge-status-warning,
+      .badge-status-info,
+      .badge-status-primary,
+      .badge-status-secondary,
+      .badge-status-accent,
+      .badge-status-neutral,
+      .badge-status-ghost {
+      }
+    }
+
+    /* ========================================
+       Gradient Utilities
+       ======================================== */
+    .brand-gradient-text {
+        background-image: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 600;
+    }
+
+    .btn-primary-gradient {
+        padding: .5rem 1rem;
+        background-image: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+        transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+    }
+
+    .btn-primary-gradient:active {
+        transform: translateY(1px);
+    }
+
+    .btn-primary-gradient:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .sidebar-gradient {
+        background-image: linear-gradient(180deg, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent), var(--color-base-100);
+        background-blend-mode: normal;
+    }
+
+    .topbar-gradient {
+        background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.00), rgba(255, 255, 255, 0.00));
+        background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.00)), linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+        background-blend-mode: color, normal;
+        opacity: 0.98;
+    }
+
+    .poem-gradient {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .poem-gradient::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: radial-gradient(600px 200px at 10% 0%, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 30%);
+        opacity: 0.12;
+    }
+}
+
+@layer interactive {
+    /* ========================================
+       Dropdown Components (Proper Stacking)
+       ======================================== */
+    .dropdown-item {
+    }
+
+    .dropdown-item-selected {
+    }
+
+    /* Create isolated stacking context for dropdowns */
+    .dropdown {
+        isolation: isolate;
+        position: relative;
+        z-index: 1; /* Ensure dropdown container is in stacking order */
+    }
+
+    /* Trigger button is in normal flow */
+    .dropdown > [role="button"],
+    .dropdown > [tabindex]:first-child {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Dropdown content positioned above - must escape table rendering */
+    .dropdown-content {
+        position: absolute;
+        z-index: 50; /* High enough to appear above table content */
+        margin-top: 0.25rem;
+    }
+
+    /* Ensure dropdowns in filters appear above tables */
+    .filter-container .dropdown-content {
+        z-index: 60; /* Even higher for filter dropdowns */
+    }
+
+    /* Ensure dropdowns in tables appear above table rows */
+    .table-container .dropdown-content {
+        z-index: 55; /* Between normal dropdowns and filter dropdowns */
+    }
+
+    /* Keep trigger clickable even when dropdown is open */
+    .dropdown:focus-within > [role="button"],
+    .dropdown:focus-within > [tabindex]:first-child {
+        position: relative;
+        pointer-events: auto;
+    }
+
+    /* Prevent nested dropdown from closing parent */
+    .dropdown .dropdown-content:focus-within {
+        display: block !important;
+    }
+
+    /* Keep parent dropdown open when child dropdown is open */
+    .dropdown:has(.dropdown:focus-within) > .dropdown-content {
+        display: block !important;
+    }
+
+    /* Keep dropdown open when hovering over nested content */
+    .dropdown:has(.dropdown-content:hover) > .dropdown-content {
+        display: block !important;
+    }
+
+    .dropdown .dropdown:focus-within {
+        outline: none;
+    }
+
+    /* Ensure nested dropdowns don't interfere with parent hover state */
+    .dropdown .dropdown-content .dropdown {
+        pointer-events: auto;
+    }
+}
+
+@layer overlays {
+    /* ========================================
+       Modal Components
+       ======================================== */
+    /* Layer 'overlays' automatically stacks above 'interactive' layer */
+    
+    /* Fix scrollbar gutter issue when modal is open */
+    :root:has(:is(.modal-open, .modal:target, .modal-toggle:checked + .modal, .modal[open])) {
+        scrollbar-gutter: auto !important;
+    }
+    
+    /* Hide scrollbar in modal content but keep functionality */
+    .modal-box * {
+        /* Firefox */
+        scrollbar-width: none;
+    }
+    
+    .modal-box *::-webkit-scrollbar {
+        /* Chrome, Safari, Edge */
+        display: none;
+    }
+    
+    /* Ensure scrolling still works */
+    .modal-box * {
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+}
+
+@layer notifications {
+    /* ========================================
+       Flash Component (Highest Priority)
+       ======================================== */
+    .flash-item {
+        opacity: 0;
+        transform: translateX(100%) scale(0.95);
+    }
+
+    .flash-item.flash-show {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    .flash-item.flash-hide {
+        opacity: 0;
+        transform: translateX(100%) scale(0.95);
+    }
+
+    /* RTL support for flash animations */
+    [dir="rtl"] .flash-item {
+        transform: translateX(-100%) scale(0.95);
+    }
+
+    [dir="rtl"] .flash-item.flash-show {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    [dir="rtl"] .flash-item.flash-hide {
+        opacity: 0;
+        transform: translateX(-100%) scale(0.95);
+    }
+
+    .flash-alert {
+        /* Override DaisyUI alert colors to have neutral background with colored left border */
+        background-color: var(--color-base-100) !important;
+        color: var(--color-base-content) !important;
+    }
+
+    /* Alert type specific left borders */
+    .alert-success {
+    }
+
+    .alert-error {
+    }
+
+    .alert-warning {
+    }
+
+    .alert-info {
+    }
+
+    .flash-icon {
+    }
+
+    .flash-close {
+    }
+
+    .flash-close:hover {
+    }
+
+    .flash-message {
+        line-height: 1.5;
+    }
+
+    /* Staggered entrance for multiple flashes */
+    .flash-item:nth-child(1) {
+        animation-delay: 0ms;
+    }
+
+    .flash-item:nth-child(2) {
+        animation-delay: 100ms;
+    }
+
+    .flash-item:nth-child(3) {
+        animation-delay: 200ms;
+    }
+
+    .flash-item:nth-child(4) {
+        animation-delay: 300ms;
+    }
+
+    .flash-item:nth-child(5) {
+        animation-delay: 400ms;
+    }
+
+    /* Responsive flash positioning */
+    @media (max-width: 640px) {
+        .flash-item {
+            max-width: calc(100vw - 2rem);
+        }
+    }
+}
+
+/* Responsive sizing */
+@media (max-width: 640px) {
+  .badge-status,
+  .badge-status-success,
+  .badge-status-error,
+  .badge-status-warning,
+  .badge-status-info,
+  .badge-status-primary,
+  .badge-status-secondary,
+  .badge-status-accent,
+  .badge-status-neutral,
+  .badge-status-ghost {
+  }
+}
