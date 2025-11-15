@@ -2,6 +2,7 @@
   "name": "app",
   "private": true,
   "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.9",
     "postcss": "^8.5.6",
