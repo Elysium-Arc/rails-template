@@ -5,7 +5,22 @@ Rails.application.routes.draw do
     delete "/logout", to: "sessions#destroy"
 
     resources :passwords, param: :token
-    resources :users
+
+    # RBAC routes
+    resources :roles do
+      member do
+        post :assign_permissions
+      end
+    end
+
+    resources :permissions
+
+    resources :users do
+      member do
+        post :assign_roles
+        delete :remove_role
+      end
+    end
 
     # Defines the root path route ("/")
     root "dashboard#index"

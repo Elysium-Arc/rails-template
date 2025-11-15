@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'associations' do
     it { should have_many(:sessions).dependent(:destroy) }
+    it { should have_many(:user_roles).dependent(:destroy) }
+    it { should have_many(:roles).through(:user_roles) }
+    it { should have_many(:role_permissions).through(:roles) }
+    it { should have_many(:permissions).through(:role_permissions) }
   end
 
   describe 'validations' do
@@ -176,6 +180,179 @@ RSpec.describe User, type: :model do
       user = create(:user)
       found_user = User.find(user.hashid)
       expect(found_user).to eq(user)
+    end
+  end
+
+  describe 'RBAC methods' do
+    let(:user) { create(:user) }
+    let(:role) { create(:role, name: 'admin') }
+    let(:permission) { create(:permission, name: 'users.create') }
+
+    before do
+      create(:role_permission, role: role, permission: permission)
+    end
+
+    describe '#add_role' do
+      it 'adds a role to the user' do
+        expect { user.add_role('admin') }.to change { user.roles.count }.by(1)
+      end
+
+      it 'returns true when successful' do
+        expect(user.add_role('admin')).to be true
+      end
+
+      it 'returns false when role does not exist' do
+        expect(user.add_role('nonexistent')).to be false
+      end
+
+      it 'is idempotent' do
+        user.add_role('admin')
+        expect { user.add_role('admin') }.not_to change { user.roles.count }
+      end
+    end
+
+    describe '#remove_role' do
+      before { user.add_role('admin') }
+
+      it 'removes a role from the user' do
+        expect { user.remove_role('admin') }.to change { user.roles.count }.by(-1)
+      end
+
+      it 'returns true when successful' do
+        expect(user.remove_role('admin')).to be true
+      end
+
+      it 'returns false when role does not exist' do
+        expect(user.remove_role('nonexistent')).to be false
+      end
+    end
+
+    describe '#has_role?' do
+      before { user.add_role('admin') }
+
+      it 'returns true when user has the role' do
+        expect(user.has_role?('admin')).to be true
+      end
+
+      it 'returns false when user does not have the role' do
+        expect(user.has_role?('super_admin')).to be false
+      end
+    end
+
+    describe '#has_any_role?' do
+      before { user.add_role('admin') }
+
+      it 'returns true when user has any of the roles' do
+        expect(user.has_any_role?('admin', 'super_admin')).to be true
+      end
+
+      it 'returns false when user has none of the roles' do
+        expect(user.has_any_role?('super_admin', 'manager')).to be false
+      end
+    end
+
+    describe '#has_all_roles?' do
+      let(:role2) { create(:role, name: 'manager') }
+
+      before do
+        user.add_role('admin')
+        user.add_role('manager')
+      end
+
+      it 'returns true when user has all roles' do
+        expect(user.has_all_roles?('admin', 'manager')).to be true
+      end
+
+      it 'returns false when user does not have all roles' do
+        expect(user.has_all_roles?('admin', 'super_admin')).to be false
+      end
+    end
+
+    describe '#has_permission?' do
+      before { user.add_role('admin') }
+
+      it 'returns true when user has the permission through a role' do
+        expect(user.has_permission?('users.create')).to be true
+      end
+
+      it 'returns false when user does not have the permission' do
+        expect(user.has_permission?('users.destroy')).to be false
+      end
+    end
+
+    describe '#has_any_permission?' do
+      before { user.add_role('admin') }
+
+      it 'returns true when user has any of the permissions' do
+        expect(user.has_any_permission?('users.create', 'users.destroy')).to be true
+      end
+
+      it 'returns false when user has none of the permissions' do
+        expect(user.has_any_permission?('users.destroy', 'roles.destroy')).to be false
+      end
+    end
+
+    describe '#has_all_permissions?' do
+      let(:permission2) { create(:permission, name: 'users.update') }
+
+      before do
+        create(:role_permission, role: role, permission: permission2)
+        user.add_role('admin')
+      end
+
+      it 'returns true when user has all permissions' do
+        expect(user.has_all_permissions?('users.create', 'users.update')).to be true
+      end
+
+      it 'returns false when user does not have all permissions' do
+        expect(user.has_all_permissions?('users.create', 'users.destroy')).to be false
+      end
+    end
+
+    describe '#permission_names' do
+      before { user.add_role('admin') }
+
+      it 'returns array of permission names' do
+        expect(user.permission_names).to include('users.create')
+      end
+    end
+
+    describe '#role_names' do
+      before { user.add_role('admin') }
+
+      it 'returns array of role names' do
+        expect(user.role_names).to include('admin')
+      end
+    end
+
+    describe '#admin?' do
+      it 'returns true when user has admin role' do
+        user.add_role('admin')
+        expect(user.admin?).to be true
+      end
+
+      it 'returns true when user has super_admin role' do
+        create(:role, name: 'super_admin')
+        user.add_role('super_admin')
+        expect(user.admin?).to be true
+      end
+
+      it 'returns false when user has neither role' do
+        expect(user.admin?).to be false
+      end
+    end
+
+    describe '#super_admin?' do
+      it 'returns true when user has super_admin role' do
+        create(:role, name: 'super_admin')
+        user.add_role('super_admin')
+        expect(user.super_admin?).to be true
+      end
+
+      it 'returns false when user does not have super_admin role' do
+        user.add_role('admin')
+        expect(user.super_admin?).to be false
+      end
     end
   end
 end

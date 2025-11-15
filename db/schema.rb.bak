@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_15_202821) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_10_113404) do
+  create_table "access_control_systems", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -33,15 +38,45 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_15_202821) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "clocks", force: :cascade do |t|
+    t.integer "terminal_id", null: false
+    t.string "employee_no", null: false
+    t.datetime "clocked_at", null: false
+    t.string "event_type", null: false
+    t.string "card_no"
+    t.json "raw_data"
+    t.string "idempotency_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clocked_at"], name: "index_clocks_on_clocked_at"
+    t.index ["employee_no", "clocked_at"], name: "index_clocks_on_employee_no_and_clocked_at"
+    t.index ["employee_no"], name: "index_clocks_on_employee_no"
+    t.index ["event_type"], name: "index_clocks_on_event_type"
+    t.index ["idempotency_key"], name: "index_clocks_on_idempotency_key", unique: true, where: "idempotency_key IS NOT NULL"
+    t.index ["terminal_id", "clocked_at"], name: "index_clocks_on_terminal_id_and_clocked_at"
+    t.index ["terminal_id"], name: "index_clocks_on_terminal_id"
+  end
+
   create_table "permissions", force: :cascade do |t|
     t.string "name", null: false
     t.string "resource_type"
     t.integer "resource_id"
-    t.text "description"
+    t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_permissions_on_name_and_resource", unique: true
     t.index ["resource_type", "resource_id"], name: "index_permissions_on_resource_type_and_resource_id"
+  end
+
+  create_table "persons", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "employee_no"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_no"], name: "index_persons_on_employee_no", unique: true
+    t.index ["user_id"], name: "index_persons_on_user_id"
   end
 
   create_table "role_permissions", force: :cascade do |t|
@@ -55,13 +90,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_15_202821) do
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description"
-    t.string "resource_type"
-    t.integer "resource_id"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource", unique: true
+    t.string "resource_type"
+    t.integer "resource_id"
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", unique: true
     t.index ["name"], name: "index_roles_on_name", unique: true
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
@@ -75,9 +109,41 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_15_202821) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "terminals", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "provider", default: "hikvision", null: false
+    t.string "ip", null: false
+    t.integer "port", default: 443
+    t.string "protocol", default: "https"
+    t.string "username"
+    t.string "password"
+    t.boolean "ssl_verify", default: true
+    t.string "device_name"
+    t.string "device_id"
+    t.string "model"
+    t.string "serial_number"
+    t.string "firmware_version"
+    t.boolean "online", default: false
+    t.datetime "last_checked_at"
+    t.datetime "last_synced_at"
+    t.boolean "listener_configured", default: false
+    t.string "listener_url"
+    t.datetime "listener_configured_at"
+    t.integer "user_count", default: 0
+    t.datetime "last_user_sync_at"
+    t.json "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ip", "port"], name: "index_terminals_on_ip_and_port", unique: true
+    t.index ["listener_configured"], name: "index_terminals_on_listener_configured"
+    t.index ["online"], name: "index_terminals_on_online"
+    t.index ["provider"], name: "index_terminals_on_provider"
+    t.index ["serial_number"], name: "index_terminals_on_serial_number", unique: true, where: "serial_number IS NOT NULL"
+  end
+
   create_table "user_roles", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "role_id", null: false
+    t.integer "user_id"
+    t.integer "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["role_id"], name: "index_user_roles_on_role_id"
@@ -93,6 +159,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_15_202821) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "role_id", null: false
+    t.index ["role_id", "user_id"], name: "index_users_roles_on_role_id_and_user_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true
+  end
+
+  add_foreign_key "clocks", "terminals"
+  add_foreign_key "persons", "users"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"
   add_foreign_key "sessions", "users"

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Authentication
   include Pundit::Authorization
+  include Authorization  # RBAC helpers
   include Pagy::Backend
   include Pagy::Frontend
   FILTER_SESSION_KEY = :_active_filters

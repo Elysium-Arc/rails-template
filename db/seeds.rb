@@ -2,9 +2,18 @@
 
 puts "Seeding data for #{ENV.fetch("RAILS_ENV", "development")} environment".upcase
 
+# Seed RBAC system (roles and permissions)
+puts "\n=== Seeding RBAC System ==="
+Seeding::RbacSeeder.seed!
+
 # Create admin user from environment variables
 if User.count.zero? && ENV["ADMIN_EMAIL_ADDRESS"].present? && ENV["ADMIN_PASSWORD"].present?
-  Seeding::UserService.create_user(ENV.fetch("ADMIN_EMAIL_ADDRESS"), ENV.fetch("ADMIN_PASSWORD"))
+  user = Seeding::UserService.create_user(ENV.fetch("ADMIN_EMAIL_ADDRESS"), ENV.fetch("ADMIN_PASSWORD"))
+  # Assign super_admin role to the admin user
+  if user && (role = Role.find_by(name: "super_admin"))
+    user.add_role("super_admin")
+    puts "✓ Assigned super_admin role to #{user.email_address}"
+  end
 end
 
 # Seed test data for development environment
@@ -45,15 +54,25 @@ if Rails.env.development?
       { email: "admin@example.com", password: "password123" }
     ]
 
-    test_users.each do |user_data|
+    test_users.each_with_index do |user_data, index|
       next if User.exists?(email_address: user_data[:email])
 
-      FactoryBot.create(:user,
+      user = FactoryBot.create(:user,
         email_address: user_data[:email],
         password: user_data[:password],
         password_confirmation: user_data[:password]
       )
       puts "Created test user: #{user_data[:email]}"
+
+      # Assign roles to test users
+      case index
+      when 0
+        user.add_role("user")
+      when 1
+        user.add_role("manager")
+      when 2
+        user.add_role("admin")
+      end
     end
 
     puts "Successfully created #{User.count} users with sessions"

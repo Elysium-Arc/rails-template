@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   include FilterableIndex
 
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[show edit update destroy assign_roles remove_role]
   before_action :persist_filters, only: :index
 
   def index
@@ -118,6 +118,37 @@ class UsersController < ApplicationController
         ]
       end
       format.html { redirect_to users_path, notice: t("users.messages.deleted", default: "User deleted successfully") }
+    end
+  end
+
+  def assign_roles
+    authorize @user, :assign_roles?
+
+    role_ids = params[:role_ids] || []
+    @user.role_ids = role_ids
+
+    respond_to do |format|
+      format.html { redirect_to @user, notice: t("users.messages.roles_assigned", default: "Roles assigned successfully") }
+      format.turbo_stream do
+        render turbo_stream: turbo_flash(:success, "users.messages.roles_assigned", default: "Roles assigned successfully")
+      end
+    end
+  end
+
+  def remove_role
+    authorize @user, :assign_roles?
+
+    role = Role.find(params[:role_id])
+    @user.roles.delete(role)
+
+    respond_to do |format|
+      format.html { redirect_to @user, notice: t("users.messages.role_removed", default: "Role removed successfully") }
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_flash(:success, "users.messages.role_removed", default: "Role removed successfully"),
+          turbo_stream.remove("user_role_#{role.id}")
+        ]
+      end
     end
   end
 
