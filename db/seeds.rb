@@ -20,9 +20,6 @@ end
 if Rails.env.development?
   require 'factory_bot_rails'
 
-  # Load factory definitions
-  FactoryBot.find_definitions
-
   # Create test users if needed
   if User.count < 20
     puts "Creating test users with FactoryBot..."
