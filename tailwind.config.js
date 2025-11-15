@@ -1,0 +1,66 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './public/*.html',
+    './app/helpers/**/*.rb',
+    './app/javascript/**/*.js',
+    './app/views/**/*.{erb,haml,html,slim}',
+    './app/components/**/*.{rb,erb,haml,html,slim}'
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    require('daisyui'),
+  ],
+  daisyui: {
+    themes: [
+      {
+        light: {
+          "base-100": "oklch(98% 0.005 250)",
+          "base-200": "oklch(95% 0.01 250)",
+          "base-300": "oklch(90% 0.015 250)",
+          "base-content": "oklch(35% 0.03 250)",
+          "primary": "oklch(65% 0.16 280)",
+          "primary-content": "oklch(95% 0.02 280)",
+          "secondary": "oklch(60% 0.12 330)",
+          "secondary-content": "oklch(95% 0.02 330)",
+          "accent": "oklch(80% 0.15 270)",
+          "accent-content": "oklch(20% 0.02 270)",
+          "neutral": "oklch(30% 0.03 260)",
+          "neutral-content": "oklch(92% 0.01 260)",
+          "info": "oklch(75% 0.1 220)",
+          "info-content": "oklch(18% 0.02 220)",
+          "success": "oklch(75% 0.12 160)",
+          "success-content": "oklch(18% 0.02 160)",
+          "warning": "oklch(85% 0.1 80)",
+          "warning-content": "oklch(25% 0.02 80)",
+          "error": "oklch(70% 0.12 25)",
+          "error-content": "oklch(18% 0.03 25)",
+        },
+        dark: {
+          "base-100": "oklch(18% 0.015 260)",
+          "base-200": "oklch(24% 0.02 260)",
+          "base-300": "oklch(30% 0.025 260)",
+          "base-content": "oklch(95% 0.01 260)",
+          "primary": "oklch(70% 0.18 330)",
+          "primary-content": "oklch(15% 0.03 330)",
+          "secondary": "oklch(65% 0.16 280)",
+          "secondary-content": "oklch(15% 0.03 280)",
+          "accent": "oklch(75% 0.2 310)",
+          "accent-content": "oklch(18% 0.04 310)",
+          "neutral": "oklch(25% 0.02 260)",
+          "neutral-content": "oklch(88% 0.01 260)",
+          "info": "oklch(80% 0.12 220)",
+          "info-content": "oklch(15% 0.02 220)",
+          "success": "oklch(78% 0.15 150)",
+          "success-content": "oklch(15% 0.03 150)",
+          "warning": "oklch(85% 0.16 85)",
+          "warning-content": "oklch(20% 0.04 85)",
+          "error": "oklch(70% 0.18 25)",
+          "error-content": "oklch(14% 0.04 25)",
+        },
+      },
+    ],
+  },
+}

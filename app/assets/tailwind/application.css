@@ -1,10 +1,6 @@
-@import "tailwindcss";
-@source "../../../public/*.html";
-@source "../../../app/helpers/**/*.rb";
-@source "../../../app/javascript/**/*.js";
-@source "../../../app/views/**/*";
-
-@plugin "daisyui";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ========================================
    CSS Cascade Layers for Z-Index Management
@@ -92,7 +88,6 @@
 @layer base {
     /* Logo styles */
     .logo {
-        @apply w-full h-full object-cover object-center;
     }
 
     [data-theme="dark"] .logo {
@@ -101,11 +96,9 @@
 
     /* Base brand gradient utilities */
     .text-brand-gradient {
-        @apply text-primary;
     }
 
     .turbo-progress-bar {
-        @apply bg-accent h-1.5;
     }
 
     /* Accessibility: Screen reader only class */
@@ -127,53 +120,42 @@
        Sidebar Layout
        ======================================== */
     .sidebar {
-        @apply menu p-2 w-52 bg-base-100 border-r border-base-300 shadow-base-300 overflow-x-hidden h-screen;
         transition: width 0.3s ease, transform 0.3s ease;
         /* Create new stacking context */
         isolation: isolate;
     }
 
     [dir="rtl"] .sidebar {
-        @apply border-r-0 border-l border-base-300;
     }
 
     .sidebar-collapsed {
-        @apply w-20 p-2;
     }
 
     .sidebar-collapsed .sidebar-brand {
-        @apply justify-center mb-2;
     }
 
     .sidebar-link-text {
-        @apply whitespace-nowrap;
         transition: opacity 0.3s ease;
     }
 
     .sidebar-collapsed .sidebar-brand-text {
-        @apply opacity-0;
     }
 
     .sidebar-collapsed .sidebar-link-text {
-        @apply opacity-0;
     }
 
     .sidebar-brand {
-        @apply flex items-center justify-center gap-6;
     }
 
     .sidebar-brand-text {
-        @apply text-xl text-accent-content font-semibold;
         transition: opacity 0.3s ease;
     }
 
     .sidebar-logo {
-        @apply w-8 h-8 overflow-hidden;
     }
 
     .sidebar-link,
     .sidebar-button {
-        @apply btn btn-ghost w-full justify-start gap-2 overflow-hidden;
     }
 
     .sidebar-link-active {
@@ -183,7 +165,6 @@
 
     .sidebar-collapsed .sidebar-link,
     .sidebar-collapsed .sidebar-button {
-        @apply justify-center;
     }
 
     .collapse-icon {
@@ -199,12 +180,10 @@
     }
 
     .topbar-toggle-button {
-        @apply hidden btn btn-ghost;
     }
 
     @media (max-width: 900px) {
         .sidebar {
-            @apply absolute top-0 start-0 h-full;
             /* Sidebar on mobile should be above content */
             z-index: 40;
         }
@@ -222,7 +201,6 @@
        Topbar Layout
        ======================================== */
     .topbar {
-        @apply w-full bg-base-100 border-b border-base-300 shadow-base-300 sticky top-0;
         /* Topbar should be above normal content but below overlays */
         z-index: 30;
         /* Create new stacking context */
@@ -230,12 +208,10 @@
     }
 
     .topbar-button {
-        @apply btn btn-ghost;
     }
 
     .topbar-end {
         margin-inline-start: auto;
-        @apply flex items-center gap-2;
     }
 }
 
@@ -244,7 +220,6 @@
        Card & Content Components
        ======================================== */
     .card-container {
-        @apply card bg-base-100 shadow-xs;
     }
     
     /* ========================================
@@ -287,79 +262,42 @@
     
     /* Form labels */
     .form-label {
-        @apply text-sm font-semibold text-base-content;
     }
     
     /* Form hints */
     .form-hint {
-        @apply text-xs text-base-content/60 leading-relaxed;
     }
     
     /* Form errors */
     .form-error {
-        @apply text-xs text-error mt-1;
     }
     
     /* Form inputs with consistent styling */
     .form-input {
-        @apply w-full transition-all duration-200;
-        @apply border border-base-content/20 rounded-lg px-4 py-2;
-        @apply bg-base-100 text-base-content;
-        @apply focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20;
     }
     
     .form-select {
-        @apply w-full transition-all duration-200;
-        @apply border border-base-content/20 rounded-lg px-4 py-2;
-        @apply bg-base-100 text-base-content;
-        @apply focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20;
     }
     
     .form-textarea {
-        @apply w-full transition-all duration-200;
-        @apply border border-base-content/20 rounded-lg px-4 py-2;
-        @apply bg-base-100 text-base-content;
-        @apply focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20;
-        @apply min-h-[100px];
     }
     
     /* Checkbox with accent color */
     .form-checkbox {
-        @apply w-5 h-5 rounded border-2 border-base-content/20;
-        @apply checked:bg-accent checked:border-accent;
-        @apply focus:outline-none focus:ring-2 focus:ring-accent/20;
-        @apply transition-all duration-200 cursor-pointer;
     }
     
     .form-checkbox-label {
-        @apply cursor-pointer justify-start gap-3 py-2.5 hover:bg-base-200/50 rounded-lg px-2 -ml-2 transition-colors;
-        @apply flex items-center;
     }
     
     /* Radio buttons with accent color */
     .form-radio {
-        @apply w-5 h-5 rounded-full border-2 border-base-content/20;
-        @apply checked:bg-accent checked:border-accent;
-        @apply focus:outline-none focus:ring-2 focus:ring-accent/20;
-        @apply transition-all duration-200 cursor-pointer;
     }
     
     .form-radio-label {
-        @apply cursor-pointer justify-start gap-3 py-2 hover:bg-base-200/50 rounded-lg px-2 -ml-2 transition-colors;
-        @apply flex items-center;
     }
     
     /* File input */
     .form-file {
-        @apply w-full transition-all duration-200;
-        @apply border border-base-content/20 rounded-lg;
-        @apply bg-base-100 text-base-content;
-        @apply file:mr-4 file:py-2 file:px-4;
-        @apply file:rounded-l-lg file:border-0;
-        @apply file:bg-accent file:text-white;
-        @apply file:cursor-pointer file:transition-colors;
-        @apply hover:file:bg-accent/90;
-        @apply focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20;
     }
 
     /* ========================================
@@ -368,102 +306,79 @@
     
     /* Primary action buttons with white text */
     .btn-primary {
-        @apply text-primary-content;
     }
     
     .btn-accent {
-        @apply text-accent-content;
     }
     
     .btn-secondary {
-        @apply text-secondary-content;
     }
     
     /* Semantic button classes */
     .btn-add {
-        @apply btn btn-accent text-white;
     }
     
     .btn-edit {
-        @apply btn btn-accent text-white;
     }
     
     .btn-update {
-        @apply btn btn-accent text-white;
     }
     
     .btn-create {
-        @apply btn btn-accent text-white;
     }
     
     .btn-save {
-        @apply btn btn-accent text-white;
     }
     
     .btn-delete {
-        @apply btn btn-error text-error-content;
     }
     
     .btn-remove {
-        @apply btn btn-error text-error-content;
     }
     
     .btn-cancel {
-        @apply btn btn-ghost;
     }
     
     .btn-back {
-        @apply btn btn-ghost;
     }
     
     .btn-view {
-        @apply btn btn-outline btn-accent;
     }
     
     .btn-submit {
-        @apply btn btn-accent text-white;
     }
     
     .btn-search {
-        @apply btn btn-outline btn-accent;
     }
     
     .btn-filter {
-        @apply btn btn-outline btn-accent;
     }
     
     .btn-export {
-        @apply btn btn-outline btn-accent;
     }
     
     .btn-import {
-        @apply btn btn-outline btn-accent;
     }
     
     .btn-sync {
-        @apply btn btn-outline btn-accent;
     }
     
     .btn-refresh {
-        @apply btn btn-outline btn-accent;
     }
 
     /* .poem {
-        @apply card bg-base-100 text-base-content p-4 rounded-box shadow-xs border border-base-200 mb-6;
     } */
 
     /* ========================================
        Table Components
        ======================================== */
     .table-container {
-        @apply w-full;
         /* Note: No isolation needed - layer system handles stacking */
         /* Tables are in 'components' layer, dropdowns in 'interactive' layer */
         /* This allows filter dropdowns to appear above tables correctly */
     }
 
     .table-container table {
-        @apply w-full;
     }
 
     /* Compact table on mobile */
@@ -511,13 +426,11 @@
     /* Loading states for table and filter */
     .table-loading,
     .filter-loading {
-        @apply opacity-50 pointer-events-none;
     }
 
     .table-loading::after,
     .filter-loading::after {
         content: "";
-        @apply absolute inset-0 bg-base-100/75 flex items-center justify-center;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%236b7280' stroke-width='4'%3E%3C/circle%3E%3CanimateTransform attributeName='transform' attributeType='XML' type='rotate' from='0 12 12' to='360 12 12' dur='1s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: center;
@@ -528,31 +441,25 @@
        Filter Components
        ======================================== */
     .filter-container {
-        @apply w-full mb-6;
     }
 
     .filter-container .input,
     .filter-container .select {
-        @apply transition-colors duration-200;
     }
 
     .filter-container .input:focus,
     .filter-container .select:focus {
-        @apply ring-2 ring-primary;
     }
 
     /* Responsive filter layout */
     @media (max-width: 640px) {
         .filter-container .flex-wrap {
-            @apply flex-col;
         }
 
         .filter-container .min-w-0 {
-            @apply min-w-full;
         }
 
         .filter-container .flex.items-center.gap-2 {
-            @apply flex-wrap justify-center;
         }
     }
 
@@ -631,237 +538,102 @@
        Status Badge Components
        ======================================== */
     .badge-status {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
     }
 
     /* Success variants */
     .badge-status-success {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-success/10 text-success;
-      @apply border border-success/20;
     }
 
     .badge-status-success:hover {
-      @apply bg-success/20;
     }
 
     /* Error variants */
     .badge-status-error {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-error/10 text-error;
-      @apply border border-error/20;
     }
 
     .badge-status-error:hover {
-      @apply bg-error/20;
     }
 
     /* Warning variants */
     .badge-status-warning {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-warning/10 text-warning;
-      @apply border border-warning/20;
     }
 
     .badge-status-warning:hover {
-      @apply bg-warning/20;
     }
 
     /* Info variants */
     .badge-status-info {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-info/10 text-info;
-      @apply border border-info/20;
     }
 
     .badge-status-info:hover {
-      @apply bg-info/20;
     }
 
     /* Primary variants */
     .badge-status-primary {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-primary/10 text-primary;
-      @apply border border-primary/20;
     }
 
     .badge-status-primary:hover {
-      @apply bg-primary/20;
     }
 
     /* Secondary variants */
     .badge-status-secondary {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-secondary/10 text-secondary;
-      @apply border border-secondary/20;
     }
 
     .badge-status-secondary:hover {
-      @apply bg-secondary/20;
     }
 
     /* Accent variants */
     .badge-status-accent {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-accent/10 text-accent;
-      @apply border border-accent/20;
     }
 
     .badge-status-accent:hover {
-      @apply bg-accent/20;
     }
 
     /* Neutral variants */
     .badge-status-neutral {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-base-300/50 text-base-content;
-      @apply border border-base-300;
     }
 
     .badge-status-neutral:hover {
-      @apply bg-base-300;
     }
 
     /* Ghost variants */
     .badge-status-ghost {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-base-content/5 text-base-content/70;
-      @apply border border-base-content/10;
     }
 
     .badge-status-ghost:hover {
-      @apply bg-base-content/10;
     }
 
     /* Solid variants */
     .badge-status-success-solid {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-success text-success-content;
-      @apply shadow-sm;
     }
 
     .badge-status-error-solid {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-error text-error-content;
-      @apply shadow-sm;
     }
 
     .badge-status-warning-solid {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-warning text-warning-content;
-      @apply shadow-sm;
     }
 
     .badge-status-info-solid {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-info text-info-content;
-      @apply shadow-sm;
     }
 
     .badge-status-primary-solid {
-      @apply inline-flex items-center justify-center;
-      @apply px-2.5 py-1 rounded-full;
-      @apply text-xs font-semibold;
-      @apply whitespace-nowrap;
-      @apply max-w-[120px] truncate;
-      @apply transition-all duration-200;
-      @apply bg-primary text-primary-content;
-      @apply shadow-sm;
     }
 
     /* Size variants */
     .badge-status-sm {
-      @apply px-2 py-0.5 text-[10px];
-      @apply max-w-[100px];
     }
 
     .badge-status-lg {
-      @apply px-3 py-1.5 text-sm;
-      @apply max-w-[150px];
     }
 
     /* With dot indicator */
     .badge-status-with-dot::before {
       content: '';
-      @apply inline-block w-1.5 h-1.5 rounded-full mr-1.5;
-      @apply bg-current opacity-70;
     }
 
     /* Pulsing animation for live states */
     .badge-status-pulse::before {
       content: '';
-      @apply inline-block w-1.5 h-1.5 rounded-full mr-1.5 animate-pulse;
-      @apply bg-current;
     }
 
     /* Responsive sizing */
@@ -876,8 +648,6 @@
       .badge-status-accent,
       .badge-status-neutral,
       .badge-status-ghost {
-        @apply text-[10px] px-2 py-0.5;
-        @apply max-w-[80px];
       }
     }
 
@@ -893,7 +663,6 @@
     }
 
     .btn-primary-gradient {
-        @apply inline-flex items-center justify-center gap-2 text-primary-content font-semibold rounded-md;
         padding: .5rem 1rem;
         background-image: linear-gradient(90deg, var(--color-primary), var(--color-accent));
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
@@ -915,7 +684,6 @@
     }
 
     .topbar-gradient {
-        @apply w-full border-b border-base-300 shadow-base-300;
         background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.00), rgba(255, 255, 255, 0.00));
         background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.00)), linear-gradient(90deg, var(--color-primary), var(--color-secondary));
         background-blend-mode: color, normal;
@@ -942,11 +710,9 @@
        Dropdown Components (Proper Stacking)
        ======================================== */
     .dropdown-item {
-        @apply flex items-center gap-2 px-2 py-1;
     }
 
     .dropdown-item-selected {
-        @apply flex items-center gap-2 px-2 py-1 opacity-50 cursor-not-allowed;
     }
 
     /* Create isolated stacking context for dropdowns */
@@ -1045,7 +811,6 @@
        Flash Component (Highest Priority)
        ======================================== */
     .flash-item {
-        @apply transition-all duration-300 ease-in-out;
         opacity: 0;
         transform: translateX(100%) scale(0.95);
     }
@@ -1076,7 +841,6 @@
     }
 
     .flash-alert {
-        @apply border-l-4 shadow-xs;
         /* Override DaisyUI alert colors to have neutral background with colored left border */
         background-color: var(--color-base-100) !important;
         color: var(--color-base-content) !important;
@@ -1084,35 +848,27 @@
 
     /* Alert type specific left borders */
     .alert-success {
-        @apply border-l-success;
     }
 
     .alert-error {
-        @apply border-l-error;
     }
 
     .alert-warning {
-        @apply border-l-warning;
     }
 
     .alert-info {
-        @apply border-l-info;
     }
 
     .flash-icon {
-        @apply animate-pulse;
     }
 
     .flash-close {
-        @apply transition-transform duration-200;
     }
 
     .flash-close:hover {
-        @apply rotate-90;
     }
 
     .flash-message {
-        @apply font-medium;
         line-height: 1.5;
     }
 
@@ -1157,7 +913,5 @@
   .badge-status-accent,
   .badge-status-neutral,
   .badge-status-ghost {
-    @apply text-[10px] px-2 py-0.5;
-    @apply max-w-[80px];
   }
 }

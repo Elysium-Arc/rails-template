@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Rails 8 application called "Pulsar" using modern Rails stack with:
 - Authentication system with session-based login
+- **Full RBAC (Role-Based Access Control) system** with roles, permissions, and Pundit integration
 - Multi-language support (English, French, Arabic)
 - ViewComponent-based UI architecture
 - Hotwire (Turbo + Stimulus) for dynamic interactions
@@ -74,8 +75,19 @@ COVERAGE=true ./bin/rspec
 ### Authentication & Authorization
 - Custom authentication system using `Authentication` concern in controllers
 - Session management with `Session` model and `Current` class for request-scoped user
-- Pundit for authorization policies
+- **Full RBAC system** with:
+  - Role model with global and resource-scoped roles
+  - Permission model with fine-grained access control
+  - User role assignments via `user_roles` join table
+  - Role permission assignments via `role_permissions` join table
+  - Helper methods: `has_role?`, `has_permission?`, `add_role`, `remove_role`
+  - Performance-optimized with caching
+  - 5 default roles: super_admin, admin, manager, user, viewer
+  - 26+ default permissions across users, roles, permissions, dashboard, audits, and settings
+- Pundit for authorization policies integrated with RBAC
+- `Authorization` concern in controllers provides RBAC helpers
 - Password reset functionality via `PasswordsController`
+- **See [docs/RBAC.md](docs/RBAC.md) for comprehensive RBAC documentation**
 
 ### Component Architecture
 - All UI components inherit from `BaseComponent` (app/components/base_component.rb)
