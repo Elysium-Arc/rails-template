@@ -1,0 +1,53 @@
+<div class="mx-auto px-4 py-8">
+  <% content_for :page_title, t('permissions.index.title') %>
+  
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold"><%= t('permissions.index.title') %></h1>
+    <% if current_user_has_permission?('permission.create') %>
+      <%= link_to t('common.actions.create'), new_permission_path, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+
+  <% if @permissions.any? %>
+    <div class="overflow-x-auto rounded-lg border border-base-300">
+      <table class="table w-full">
+        <thead>
+          <tr class="border-b border-base-300 bg-base-200">
+            <th><%= t('permissions.columns.name') %></th>
+            <th><%= t('permissions.columns.description') %></th>
+            <th><%= t('permissions.columns.roles_count') %></th>
+            <th><%= t('common.actions.actions') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @permissions.each do |permission| %>
+            <tr class="border-b border-base-200 hover:bg-base-50">
+              <td class="font-semibold"><%= link_to permission.name, permission_path(permission), class: 'link link-primary' %></td>
+              <td><%= truncate(permission.description, length: 50) %></td>
+              <td><span class="badge badge-secondary"><%= permission.roles.count %></span></td>
+              <td class="space-x-2">
+                <% if current_user_has_permission?('permission.read') %>
+                  <%= link_to t('common.actions.view'), permission_path(permission), class: 'btn btn-sm btn-ghost' %>
+                <% end %>
+                <% if current_user_has_permission?('permission.update') %>
+                  <%= link_to t('common.actions.edit'), edit_permission_path(permission), class: 'btn btn-sm btn-ghost' %>
+                <% end %>
+                <% if current_user_has_permission?('permission.delete') %>
+                  <%= link_to t('common.actions.delete'), permission_path(permission), method: :delete, data: { confirm: t('permissions.messages.confirm_delete') }, class: 'btn btn-sm btn-error btn-ghost' %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-8">
+      <%= render PagyComponent.new(@pagy) if @pagy %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      <span><%= t('permissions.index.empty_message') %></span>
+    </div>
+  <% end %>
+</div>

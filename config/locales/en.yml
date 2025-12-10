@@ -14,6 +14,12 @@ en:
       clock:
         one: "Clock Event"
         other: "Clock Events"
+      role:
+        one: "Role"
+        other: "Roles"
+      permission:
+        one: "Permission"
+        other: "Permissions"
     attributes:
       user:
         email_address: "Email address"
@@ -62,10 +68,26 @@ en:
         raw_event_data: "Raw Event Data"
         created_at: "Recorded"
         updated_at: "Updated"
+      role:
+        name: "Name"
+        description: "Description"
+        resource_type: "Resource Type"
+        resource_id: "Resource ID"
+        created_at: "Created At"
+        updated_at: "Updated At"
+      permission:
+        name: "Name"
+        description: "Description"
+        resource_type: "Resource Type"
+        resource_id: "Resource ID"
+        created_at: "Created At"
+        updated_at: "Updated At"
     errors:
       messages:
         blank: "can't be blank"
         taken: "has already been taken"
+        already_has_permission: "already has this permission"
+        already_has_role: "already has this role"
         too_short: "is too short (minimum is %{count} characters)"
         too_long: "is too long (maximum is %{count} characters)"
         invalid: "is invalid"
@@ -135,6 +157,8 @@ en:
       terminals: "Terminals"
       clocks: "Clock Events"
       users: "Users"
+      roles: "Roles"
+      permissions: "Permissions"
 
   # Global UI elements
   common:
@@ -382,6 +406,82 @@ en:
     messages:
       destroyed: "Clock event deleted successfully"
       confirm_delete: "Are you sure you want to delete this clock event?"
+
+  roles:
+    index:
+      title: "Roles"
+      empty_message: "No roles found. Create your first role to get started."
+    show:
+      title: "Role Details"
+      permissions: "Permissions"
+      no_permissions: "No permissions assigned"
+    new:
+      title: "New Role"
+    edit:
+      title: "Edit Role"
+    form:
+      name: "Name"
+      description: "Description"
+      resource_type: "Resource Type (optional)"
+      resource_id: "Resource ID (optional)"
+      hints:
+        name: "A unique name for the role (e.g., admin, editor, viewer)"
+        description: "A description of what this role is for"
+        resource_type: "Optional: For resource-scoped roles"
+        resource_id: "Optional: For resource-scoped roles"
+    columns:
+      name: "Name"
+      description: "Description"
+      permissions_count: "Permissions"
+      users_count: "Users"
+      resource: "Resource"
+      created_at: "Created At"
+    messages:
+      created: "Role created successfully"
+      updated: "Role updated successfully"
+      deleted: "Role deleted successfully"
+      delete_error: "Could not delete this role"
+      confirm_delete: "Are you sure you want to delete this role?"
+      permission_added: "Permission added successfully"
+      permission_removed: "Permission removed successfully"
+
+  permissions:
+    index:
+      title: "Permissions"
+      empty_message: "No permissions found. Create your first permission to get started."
+    show:
+      title: "Permission Details"
+      roles: "Assigned to Roles"
+      no_roles: "Not assigned to any roles"
+    new:
+      title: "New Permission"
+    edit:
+      title: "Edit Permission"
+    form:
+      name: "Name"
+      description: "Description"
+      resource_type: "Resource Type (optional)"
+      resource_id: "Resource ID (optional)"
+      hints:
+        name: "A unique permission identifier (e.g., user.create, user.delete)"
+        description: "What this permission allows"
+        resource_type: "Optional: For resource-scoped permissions"
+        resource_id: "Optional: For resource-scoped permissions"
+    columns:
+      name: "Name"
+      description: "Description"
+      roles_count: "Assigned to Roles"
+      resource: "Resource"
+      created_at: "Created At"
+    messages:
+      created: "Permission created successfully"
+      updated: "Permission updated successfully"
+      deleted: "Permission deleted successfully"
+      delete_error: "Could not delete this permission"
+      confirm_delete: "Are you sure you want to delete this permission?"
+
+  authorization:
+    not_authorized: "You are not authorized to perform this action"
 
   flash:
     alert: "There was a problem."

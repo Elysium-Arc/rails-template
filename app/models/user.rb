@@ -4,6 +4,8 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
+  has_many :user_roles, dependent: :destroy
+  has_many :roles, through: :user_roles
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
@@ -60,5 +62,41 @@ class User < ApplicationRecord
 
   def to_key
     [ hashid ]
+  end
+
+  def has_role?(role_name, resource_type = nil, resource_id = nil)
+    if resource_type.present?
+      roles.exists?(
+        name: role_name.to_s.strip.downcase,
+        resource_type: resource_type,
+        resource_id: resource_id
+      )
+    else
+      roles.where(name: role_name.to_s.strip.downcase)
+        .where(resource_type: nil, resource_id: nil)
+        .exists?
+    end
+  end
+
+  def has_permission?(permission_name, resource_type = nil, resource_id = nil)
+    roles.joins(:permissions).exists?(
+      permissions: {
+        name: permission_name.to_s.strip.downcase,
+        resource_type: resource_type,
+        resource_id: resource_id
+      }
+    )
+  end
+
+  def grant_role(role)
+    roles << role unless roles.include?(role)
+  end
+
+  def revoke_role(role)
+    roles.delete(role)
+  end
+
+  def admin?
+    has_role?('admin')
   end
 end

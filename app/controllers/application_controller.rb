@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Authentication
+  include Authorization
   include Pundit::Authorization
   include Pagy::Backend
   include Pagy::Frontend
