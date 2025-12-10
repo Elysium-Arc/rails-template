@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RolesController < ApplicationController
   before_action :authorize_admin!, except: [:show]
   before_action :set_role, only: [:show, :edit, :update, :destroy, :add_permission, :remove_permission]

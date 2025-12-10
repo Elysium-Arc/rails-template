@@ -8,7 +8,7 @@ namespace :rbac do
 
   namespace :role do
     desc 'Create a new role - usage: rails rbac:role:create[name,"description"]'
-    task :create, [:name, :description] => :environment do |t, args|
+    task :create, [:name, :description] => :environment do |_t, args|
       name = args[:name]
       description = args[:description] || "Role: #{name}"
 
@@ -22,7 +22,7 @@ namespace :rbac do
     end
 
     desc 'Delete a role - usage: rails rbac:role:delete[name]'
-    task :delete, [:name] => :environment do |t, args|
+    task :delete, [:name] => :environment do |_t, args|
       name = args[:name]
 
       if name.blank?
@@ -63,7 +63,7 @@ namespace :rbac do
 
   namespace :permission do
     desc 'Create a new permission - usage: rails rbac:permission:create[name,"description"]'
-    task :create, [:name, :description] => :environment do |t, args|
+    task :create, [:name, :description] => :environment do |_t, args|
       name = args[:name]
       description = args[:description]
 
@@ -77,7 +77,7 @@ namespace :rbac do
     end
 
     desc 'Delete a permission - usage: rails rbac:permission:delete[name]'
-    task :delete, [:name] => :environment do |t, args|
+    task :delete, [:name] => :environment do |_t, args|
       name = args[:name]
 
       if name.blank?
@@ -118,7 +118,7 @@ namespace :rbac do
 
   namespace :grant do
     desc 'Grant permission to role - usage: rails rbac:grant:permission[role_name,permission_name]'
-    task :permission, [:role_name, :permission_name] => :environment do |t, args|
+    task :permission, [:role_name, :permission_name] => :environment do |_t, args|
       role_name = args[:role_name]
       permission_name = args[:permission_name]
 
@@ -136,7 +136,7 @@ namespace :rbac do
     end
 
     desc 'Grant role to user - usage: rails rbac:grant:role[email,role_name]'
-    task :role, [:email, :role_name] => :environment do |t, args|
+    task :role, [:email, :role_name] => :environment do |_t, args|
       email = args[:email]
       role_name = args[:role_name]
 
@@ -162,7 +162,7 @@ namespace :rbac do
 
   namespace :revoke do
     desc 'Revoke permission from role - usage: rails rbac:revoke:permission[role_name,permission_name]'
-    task :permission, [:role_name, :permission_name] => :environment do |t, args|
+    task :permission, [:role_name, :permission_name] => :environment do |_t, args|
       role_name = args[:role_name]
       permission_name = args[:permission_name]
 
@@ -180,7 +180,7 @@ namespace :rbac do
     end
 
     desc 'Revoke role from user - usage: rails rbac:revoke:role[email,role_name]'
-    task :role, [:email, :role_name] => :environment do |t, args|
+    task :role, [:email, :role_name] => :environment do |_t, args|
       email = args[:email]
       role_name = args[:role_name]
 
@@ -206,7 +206,7 @@ namespace :rbac do
 
   namespace :user do
     desc 'Show user roles and permissions - usage: rails rbac:user:show[email]'
-    task :show, [:email] => :environment do |t, args|
+    task :show, [:email] => :environment do |_t, args|
       email = args[:email]
 
       if email.blank?

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PermissionsController < ApplicationController
   before_action :authorize_admin!
   before_action :set_permission, only: [:show, :edit, :update, :destroy]

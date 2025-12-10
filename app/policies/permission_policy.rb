@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PermissionPolicy < ApplicationPolicy
   def index?
     user.has_permission?('permission.list')

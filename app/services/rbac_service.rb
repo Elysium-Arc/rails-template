@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RbacService
   class RoleNotFoundError < StandardError; end
   class PermissionNotFoundError < StandardError; end

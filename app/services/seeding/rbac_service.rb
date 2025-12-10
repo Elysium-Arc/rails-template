@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Seeding
   class RbacService
     def self.seed_default_roles_and_permissions
