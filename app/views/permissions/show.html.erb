@@ -1,0 +1,36 @@
+<div class="mx-auto px-4 py-8 max-w-2xl">
+  <% content_for :page_title, t('permissions.show.title') %>
+  
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2"><%= @permission.name %></h1>
+    <p class="text-base-content/70"><%= @permission.description %></p>
+  </div>
+
+  <div class="card bg-base-100 shadow-sm border border-base-300 mb-8">
+    <div class="card-body">
+      <h2 class="card-title"><%= t('permissions.show.roles') %></h2>
+      
+      <% if @roles.any? %>
+        <ul class="list list-inside space-y-2">
+          <% @roles.each do |role| %>
+            <li>
+              <%= link_to role.name, role_path(role), class: 'link link-primary' %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-base-content/50"><%= t('permissions.show.no_roles') %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="space-x-2 flex">
+    <% if current_user_has_permission?('permission.update') %>
+      <%= link_to t('common.actions.edit'), edit_permission_path(@permission), class: 'btn btn-primary' %>
+    <% end %>
+    <% if current_user_has_permission?('permission.delete') %>
+      <%= link_to t('common.actions.delete'), permission_path(@permission), method: :delete, data: { confirm: t('permissions.messages.confirm_delete') }, class: 'btn btn-error' %>
+    <% end %>
+    <%= link_to t('common.actions.back'), permissions_path, class: 'btn btn-ghost' %>
+  </div>
+</div>

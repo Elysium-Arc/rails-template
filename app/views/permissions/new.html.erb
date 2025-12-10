@@ -1,0 +1,61 @@
+<div class="mx-auto px-4 py-8 max-w-2xl">
+  <% content_for :page_title, t('permissions.new.title') %>
+  
+  <h1 class="text-3xl font-bold mb-8"><%= t('permissions.new.title') %></h1>
+
+  <%= form_with(model: @permission, local: true, class: 'space-y-6') do |form| %>
+    <% if @permission.errors.any? %>
+      <div class="alert alert-error">
+        <div>
+          <strong><%= pluralize(@permission.errors.count, 'error') %> <%= t('simple_form.error_notification.default_message') %></strong>
+          <ul class="mt-2">
+            <% @permission.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-control w-full">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'input input-bordered w-full', placeholder: t('permissions.form.name') %>
+      <label class="label">
+        <span class="label-text-alt"><%= t('permissions.form.hints.name') %></span>
+      </label>
+    </div>
+
+    <div class="form-control w-full">
+      <%= form.label :description %>
+      <%= form.text_area :description, class: 'textarea textarea-bordered w-full h-24', placeholder: t('permissions.form.description') %>
+      <label class="label">
+        <span class="label-text-alt"><%= t('permissions.form.hints.description') %></span>
+      </label>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="form-control w-full">
+        <%= form.label :resource_type %>
+        <%= form.text_field :resource_type, class: 'input input-bordered w-full', placeholder: 'e.g., Post' %>
+        <label class="label">
+          <span class="label-text-alt"><%= t('permissions.form.hints.resource_type') %></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <%= form.label :resource_id %>
+        <%= form.number_field :resource_id, class: 'input input-bordered w-full' %>
+        <label class="label">
+          <span class="label-text-alt"><%= t('permissions.form.hints.resource_id') %></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="flex gap-4 mt-8">
+      <%= form.submit t('common.actions.create'), class: 'btn btn-primary' %>
+      <%= link_to t('common.actions.cancel'), permissions_path, class: 'btn btn-ghost' %>
+    </div>
+  <% end %>
+</div>

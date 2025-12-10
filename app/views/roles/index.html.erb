@@ -1,0 +1,55 @@
+<div class="mx-auto px-4 py-8">
+  <% content_for :page_title, t('roles.index.title') %>
+  
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold"><%= t('roles.index.title') %></h1>
+    <% if current_user_has_permission?('role.create') %>
+      <%= link_to t('common.actions.create'), new_role_path, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+
+  <% if @roles.any? %>
+    <div class="overflow-x-auto rounded-lg border border-base-300">
+      <table class="table w-full">
+        <thead>
+          <tr class="border-b border-base-300 bg-base-200">
+            <th><%= t('roles.columns.name') %></th>
+            <th><%= t('roles.columns.description') %></th>
+            <th><%= t('roles.columns.permissions_count') %></th>
+            <th><%= t('roles.columns.users_count') %></th>
+            <th><%= t('common.actions.actions') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @roles.each do |role| %>
+            <tr class="border-b border-base-200 hover:bg-base-50">
+              <td class="font-semibold"><%= link_to role.name, role_path(role), class: 'link link-primary' %></td>
+              <td><%= truncate(role.description, length: 50) %></td>
+              <td><span class="badge badge-secondary"><%= role.permissions.count %></span></td>
+              <td><span class="badge badge-secondary"><%= role.users.count %></span></td>
+              <td class="space-x-2">
+                <% if current_user_has_permission?('role.read') %>
+                  <%= link_to t('common.actions.view'), role_path(role), class: 'btn btn-sm btn-ghost' %>
+                <% end %>
+                <% if current_user_has_permission?('role.update') %>
+                  <%= link_to t('common.actions.edit'), edit_role_path(role), class: 'btn btn-sm btn-ghost' %>
+                <% end %>
+                <% if current_user_has_permission?('role.delete') %>
+                  <%= link_to t('common.actions.delete'), role_path(role), method: :delete, data: { confirm: t('roles.messages.confirm_delete') }, class: 'btn btn-sm btn-error btn-ghost' %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-8">
+      <%= render PagyComponent.new(@pagy) if @pagy %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      <span><%= t('roles.index.empty_message') %></span>
+    </div>
+  <% end %>
+</div>

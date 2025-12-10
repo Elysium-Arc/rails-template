@@ -1,0 +1,37 @@
+<div class="mx-auto px-4 py-8 max-w-2xl">
+  <% content_for :page_title, t('roles.show.title') %>
+  
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2"><%= @role.name %></h1>
+    <p class="text-base-content/70"><%= @role.description %></p>
+  </div>
+
+  <div class="card bg-base-100 shadow-sm border border-base-300 mb-8">
+    <div class="card-body">
+      <h2 class="card-title"><%= t('roles.show.permissions') %></h2>
+      
+      <% if @permissions.any? %>
+        <ul class="list list-inside space-y-2">
+          <% @permissions.each do |permission| %>
+            <li class="flex items-center">
+              <span class="badge badge-primary mr-2"><%= permission.name %></span>
+              <span class="text-sm text-base-content/70"><%= permission.description %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-base-content/50"><%= t('roles.show.no_permissions') %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="space-x-2 flex">
+    <% if current_user_has_permission?('role.update') %>
+      <%= link_to t('common.actions.edit'), edit_role_path(@role), class: 'btn btn-primary' %>
+    <% end %>
+    <% if current_user_has_permission?('role.delete') %>
+      <%= link_to t('common.actions.delete'), role_path(@role), method: :delete, data: { confirm: t('roles.messages.confirm_delete') }, class: 'btn btn-error' %>
+    <% end %>
+    <%= link_to t('common.actions.back'), roles_path, class: 'btn btn-ghost' %>
+  </div>
+</div>
